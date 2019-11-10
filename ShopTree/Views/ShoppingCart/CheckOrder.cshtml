@@ -1,0 +1,79 @@
+﻿@model List<ShopTree.Models.Order>
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="menu-account">
+                    <h3>
+                        <span>
+                            Quản lý cá nhân
+                        </span>
+                    </h3>
+                    <ul>
+                        <li><a href="@Url.Action("CustomerProfile", "Customers")"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
+                        <li class="active"><a href="javascript:void(0);"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
+                        <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+
+                <div class="breadcrumb clearfix">
+                    <ul>
+                        <li itemscope="" class="home">
+                            <a title="Đến trang chủ" href="@Url.Action("Index", "Home")" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                        </li>
+                        <li class="icon-li"><strong>Đơn hàng của tôi</strong> </li>
+                    </ul>
+                </div>
+
+                <div class="myorder-content clearfix">
+                    <h1 class="title"><span>Đơn hàng của tôi</span></h1>
+                    <div class="myorder-block">
+                        <div class="table-responsive clearfix myorder-info">
+                            <table class="table table-mycart">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Mã đơn hàng</th>
+                                        <th>Tên khách hàng</th>
+                                        <th>Tổng tiền</th>
+                                        <th>Vận chuyển</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var index = Model.IndexOf(item) + 1;
+                                        <tr>
+                                            <td>@index</td>
+                                            <td><a href="javascript:void(0);">@item.OrderCode</a></td>
+                                            <td><a href="javascript:void(0);">@item.Customer.Name</a></td>
+                                            <td>@item.Total.ToString("C2")</td>
+                                            <td>@item.OrderStatus.Status</td>
+                                            <td><a href="@Url.Action("ViewOrderDetail", "ShoppingCart", new { orderId = item.Id })"><i class="fa fa-angle-double-right "></i><span>Xem đơn hàng</span></a></td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () {
+            $(".menu-quick-select ul").show();
+        }, function () {
+            $(".menu-quick-select ul").hide();
+        });
+    });
+</script>

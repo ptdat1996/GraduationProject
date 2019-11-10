@@ -1,0 +1,64 @@
+﻿@model List<ShopTree.Models.Category>
+@using ShopTree.Common
+
+<div class="col-md-3">
+    <div class="menu-product">
+        <h3>
+            <span>
+                Sản phẩm
+            </span>
+        </h3>
+        <ul class="level0">
+            @foreach (var item in Model)
+            {
+                <li>
+                    <a href="@Url.Action("GetProductByCategoryId", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })">
+                        <i class="fa fa-arrow-circle-right"></i><span style="margin-left: 5px">@item.Name</span>
+                    </a>
+                </li>
+            }
+
+        </ul>
+    </div>
+
+    <!--Begin-->
+    <div class="box-sale-policy">
+        <h3><span>Chính sách bán hàng</span></h3>
+        <div class="sale-policy-block">
+            <ul>
+                <li>Giao hàng TOÀN QUỐC</li>
+                <li>Thanh toán khi nhận hàng</li>
+                <li>Đổi trả trong <span>15 ngày</span></li>
+                <li>Hoàn ngay tiền mặt</li>
+                <li>Chất lượng đảm bảo</li>
+                <li>Miễn phí vận chuyển: <span>Đơn hàng từ 3 món trở lên</span></li>
+            </ul>
+        </div>
+        <div class="buy-guide">
+            <h3>Hướng Dẫn Mua Hàng</h3>
+            <ul>
+                <li>
+                    Mua hàng trực tiếp tại website
+                    <b> http://www.tiki.com</b>
+                </li>
+                <li>
+                    Gọi điện thoại <strong>
+                        0934 087 969
+                    </strong> để mua hàng
+                </li>
+                <li>
+                    Mua tại Trung tâm CSKH: <br>
+                    <strong>54 Nguyễn Lương Bằng, Tp Đà Nẵng</strong>
+                </li>
+                <li>
+                    Mua sỉ/buôn xin gọi
+                    <strong class="ng-binding">
+                        0934 087 969
+                    </strong> để được hỗ trợ.
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--End-->
+</div>
+<!--End right menu-->

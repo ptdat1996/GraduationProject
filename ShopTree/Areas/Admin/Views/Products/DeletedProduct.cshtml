@@ -1,0 +1,89 @@
+﻿@using PagedList.Mvc
+@using System.Globalization
+@model PagedList.IPagedList<ShopTree.Models.Product>
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item active"><a href="@Url.Action("DeletedProduct", "Products", new { area = "Admin" })">@ViewBag.Title</a></li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <b>Danh sách sản phẩm</b>
+                        </div>    
+                        <div class="card-body">
+                            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Trạng thái</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td class="align-td">
+                                                <img src="@item.Avatar" class="image-avatar" alt="@item.Name" />
+                                            </td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Category.Name</td>
+                                            <td>@item.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                            <td>@item.StockQuantity</td>
+                                            <td>
+                                                <span class="badge badge-secondary">Inactive</span>
+                                            </td>
+                                            <td class="td-contain-button">
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <a class="custom-btn custom-btn-success" href="@Url.Action("ActiveProduct", "Products", new { area = "Admin", page = Model.PageNumber, id = item.Id })">
+                                                        <i class="fa fa-check-circle"></i>
+                                                        Active now
+                                                    </a>
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <div class="pageinate">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="pagination">
+                                    <div class="row">
+                                        <div>
+                                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                            <span>
+                                                @Html.PagedListPager(Model, page => Url.Action("DeletedProduct", "Products", new { page, area = "Admin" }))
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col-->
+                    </div>
+                    <!--/.row-->
+                </div>
+            </div>
+            <!-- /.conainer-fluid -->
+        </div>
+    </div>
+</main>
+

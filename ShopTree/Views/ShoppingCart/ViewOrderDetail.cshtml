@@ -1,0 +1,148 @@
+﻿@model ShopTree.Models.OrderInfomation
+@using System.Globalization
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="menu-account">
+                    <h3>
+                        <span>
+                            Quản lý cá nhân
+                        </span>
+                    </h3>
+                    <ul>
+                        <li><a href="@Url.Action("CustomerProfile", "Customers")"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
+                        <li class="active"><a href="javascript:void(0)"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
+                        <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+
+                <div class="breadcrumb clearfix">
+                    <ul>
+                        <li class="home">
+                            <a title="Đến trang chủ" href="@Url.Action("Index", "Home")" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                        </li>
+                        <li class="icon-li"><strong>Đơn hàng của tôi</strong> </li>
+                    </ul>
+                </div>
+                <div class="myorder-content myorder-detail-content clearfix">
+                    <h1 class="title"><span>Đơn hàng của tôi</span></h1>
+                    <div class="myorder-block">
+                        <div class="row-title docs">
+                            Đơn hàng của
+                            <a href="javascript:void(0);">@Model.CustomerName</a>
+                            <b>@Model.OrderCode</b> lúc
+                            <span class="grey">@Model.OrderDate.ToLongDateString()</span>
+                        </div>
+                        <div class="table-responsive clearfix myorder-info">
+                            <table class="table table-mycart">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Mã sản phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Thành tiền</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                   
+                                    @foreach (var item in Model.ListOrderDetail)
+                                    {
+                                        var index = Model.ListOrderDetail.IndexOf(item) + 1;
+                                        var subTotal = (item.Price * item.Quantity).ToString("C", CultureInfo.GetCultureInfo("vi-VN"));
+                                        <tr>
+                                            <td>@index</td>
+                                            <td>
+                                                <a href="javascript:void(0);">@item.Product.Name</a>
+                                            </td>
+                                            <td>SP - @item.ProductId</td>
+                                            <td>@item.Quantity</td>
+                                            <td>@item.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                            <td>@subTotal</td>
+                                        </tr>
+                                    }
+                                    <tr>
+                                        <td class="border-right" colspan="3">
+                                            @if (Model.ShippingName != null)
+                                            {
+                                                <div class="box-customer-content">
+                                                    <div class="title docs"><span>Thông tin giao hàng</span></div>
+                                                    <div>[Anh/Chị] :<b>@Model.ShippingName</b></div>
+                                                    <div>
+                                                        <span>@Model.ShippingEmail</span> |<br />
+                                                        <span>@Model.ShippingAddress</span> | <br />
+                                                        <span>@Model.ShippingPhone</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="box-customer-content">
+                                                    <div class="title"><span>Thông tin thanh toán</span></div>
+                                                    <div>[Anh/Chị] :<b>@Model.CustomerName</b></div>
+                                                    <div>
+                                                        <span>@Model.CustomerEmail</span> |<br />
+                                                        <span>@Model.CustomerAddress</span> | <br />
+                                                        <span>@Model.CustomerPhone</span>
+                                                    </div>
+                                                </div>
+                                            }
+                                            <div class="box-customer-content">
+                                                <div class="title"><span>Thông tin thanh toán</span></div>
+                                                <div>[Anh/Chị] :<b>@Model.CustomerName</b></div>
+                                                <div>
+                                                    <span>@Model.CustomerEmail</span> |<br />
+                                                    <span>@Model.CustomerAddress</span> | <br />
+                                                    <span>@Model.CustomerPhone</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td colspan="4">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="text-left"><b>Tổng tiền thanh toán</b></td>
+                                                        <td class="text-right ">
+                                                            <b class="total-payment">@Model.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b>
+                                                            <div class="help-block">Bao gồm VAT</div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="text-center order-stt">
+                                                        <td colspan="2">
+                                                            <div class="docs">Trạng thái đơn hàng</div>
+                                                            <div class="docs"><b>@Model.Status</b></div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="button text-right">
+                            <a class="btn btn-default" href="@Url.Action("CheckOrder", "ShoppingCart")">Trở về danh sách đơn hàng</a>
+                            <a class="btn btn-primary" href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () {
+            $(".menu-quick-select ul").show();
+        }, function () {
+            $(".menu-quick-select ul").hide();
+        });
+    });
+</script>

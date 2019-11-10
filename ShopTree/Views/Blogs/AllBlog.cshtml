@@ -1,0 +1,74 @@
+﻿@model List<ShopTree.Models.Blog>
+@using ShopTree.Common
+
+<div id="blog-template">
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+
+                    <div class="breadcrumb clearfix">
+                        <ul>
+                            <li class="home">
+                                <a title="Đến trang chủ" href="@Url.Action("Index", "Home")" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                            </li>
+                            <li class="icon-li"><strong>Blog</strong> </li>
+                        </ul>
+                    </div>
+
+                    <div class="news-content">
+                        <h1 title="blog" class="page-heading">
+                            Blog
+                        </h1>
+                        <div class="blog_wrap">
+                            @foreach (var item in Model)
+                            {
+                                <article class="blog_item clearfix">
+                                    <div class="blog_item_image text-center">
+                                        <a href="@Url.Action("Detail", "Blogs", new { id = Slug.GenerateSlug(item.Id, item.Title) })">
+                                            <img src="@Url.Content("~/" + item.Avatar)">
+                                        </a>
+                                    </div>
+                                    <div class="blog_item_content">
+                                        <a href="@Url.Action("Detail", "Blogs", new { id = Slug.GenerateSlug(item.Id, item.Title) })">
+                                            <h2>@item.Title</h2>
+                                        </a>
+                                        <i class="fa fa-eye"></i><span>@item.View</span>
+                                        <div class="blog-content-short-description">
+                                            <p>@item.Description.Substring(0, 100)</p>
+                                        </div>
+                                    </div>
+                                </article>
+
+                            }
+                        </div>
+                        <!-- Paginate -->
+                        <!-- End paginate -->
+                    </div>
+                </div>
+
+                <!-- Blog sidebar -->
+                <div class="col-md-3">
+                    <div class="sidebar_blogs">
+                        <h3 title="bài viết mới" class="sidebar_title">
+                            Bài viết nổi bật
+                        </h3>
+                        @{ Html.RenderAction("_BlogSideBar", "Home");}
+                    </div>
+                </div>
+                <!-- End blog sidebar -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () {
+            $(".menu-quick-select ul").show();
+        }, function () {
+            $(".menu-quick-select ul").hide();
+        });
+    });
+</script>

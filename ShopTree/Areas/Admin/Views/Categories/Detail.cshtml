@@ -1,0 +1,43 @@
+﻿@model ShopTree.Models.Category
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row justify-content-center">
+                <div class="col-md-6 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>@Model.Name</strong>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">Tên danh mục :</label>
+                                <input value="@Model.Name" readonly ="readonly" class="col-md-8 form-control"/>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">Avatar :</label>
+                                <div class="img-container col-md-9">
+                                    <img src="@Url.Content("~/" + Model.Avatar)" alt="@Model.Name" class="image-avatar"/>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <a class="custom-btn custom-btn-dark" href="@Url.Action("AllCategory", "Categories", new { area = "Admin", page = ViewBag.Page })">
+                                <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                            </a>
+                            <a class="custom-btn custom-btn-info" href="@Url.Action("Edit", "Categories", new { area = "Admin", page = ViewBag.Page })">
+                                <i class="fa fa-edit"></i> Chỉnh sửa
+                            </a>                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

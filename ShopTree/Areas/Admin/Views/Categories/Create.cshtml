@@ -1,0 +1,53 @@
+﻿@model ShopTree.Areas.Admin.Models.CategoryViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row justify-content-center">
+                <div class="col-md-6 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Tạo mới danh mục</strong>
+                        </div>
+                        @using (Html.BeginForm("Create", "Categories", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label class="col-form-label">Tên danh mục(*) :</label>
+                                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tên danh mục...." })
+                                    @Html.ValidationMessage("Name", new { @class = "text-danger" })
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-form-label">Avatar(*) :</label>
+                                    @Html.TextBoxFor(model => model.ImageFile, new { @type = "file", @accept = "image/*", @onchange = "loadFile(event)" })
+                                    @Html.ValidationMessage("ImageFile", new { @class = "text-danger" })
+                                    <div class="img-container">
+                                        <img src="#" id="preview" alt="" />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllCategory", "Categories", new { area = "Admin" })">
+                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                </a>
+                                <button class="custom-btn custom-btn-success" type="submit">
+                                    <i class="fa fa-plus-circle"></i> Tạo mới
+                                </button>
+                                <div class="loading-container">
+                                    <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                    Loading....
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

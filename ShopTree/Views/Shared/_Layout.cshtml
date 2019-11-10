@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <meta name="description" />
+    <meta name="keywords" />
+
+    <link href="~/Assets/client/images/favicon.png" rel="shortcut icon" type="image/x-icon" />
+    <meta content="vi_VN" property="og:locale" />
+
+    <style>
+        .loader_overlay {
+            position: fixed;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background-color: #fff;
+            -webkit-transition: all .1s ease;
+            -o-transition: all .1s ease;
+            transition: all .1s ease;
+            opacity: 1;
+            visibility: visible;
+        }
+
+            .loader_overlay.loaded {
+                opacity: 0;
+                visibility: hidden;
+                z-index: -2;
+            }
+    </style>
+
+    <link href="~/Assets/client/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/client/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/client/css/roboto.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/client/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/client/css/responsive.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/client/css/smoothproducts.css" type="text/css" rel="stylesheet" />
+
+    <script src="~/Assets/client/js/plugin.js" type="text/javascript"></script>
+    <script src="~/Assets/client/js/scripts.js" type="text/javascript"></script>
+
+</head>
+<body>
+    <div class="wrapper">
+
+        @* Header *@
+        <div class="header">
+            <section class="top-link clearfix">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav navbar-nav topmenu-contact pull-left">
+                                <li><i class="fa fa-phone"></i> <span>Hotline: 0934 087 969</span></li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right topmenu  hidden-xs hidden-sm">
+                                <li class="order-check">
+                                    <a href="@Url.Action("CheckOrderWithoutLogin", "ShoppingCart")">
+                                        <i class="fa fa-pencil-square-o"></i> Kiểm tra đơn hàng
+                                    </a>
+                                </li>
+                                <li class="order-cart">
+                                    <a href="@Url.Action("ViewCart", "ShoppingCart")">
+                                        <i class="fa fa-shopping-cart"></i> Giỏ hàng
+                                    </a>
+                                </li>
+                                @if (Session["CustomerName"] == null)
+                                {
+                                    <li class="account-login">
+                                        <a href="@Url.Action("Login", "Customers")">
+                                            <i class="fa fa-sign-in"></i> Đăng nhập
+                                        </a>
+                                    </li>
+                                    <li class="account-register">
+                                        <a href="@Url.Action("Register", "Customers")">
+                                            <i class="fa fa-key"></i> Đăng ký
+                                        </a>
+                                    </li>
+                                    <li class="account-register">
+                                        <a href="@Url.Action("ForgotPassword", "Customers")">
+                                            <i class="fa fa-lock"></i> Quên mật khẩu
+                                        </a>
+                                    </li>
+                                }
+
+                            </ul>
+                            <div class="show-mobile hidden-lg hidden-md">
+                                <div class="quick-user">
+                                    <div class="quickaccess-toggle">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                    <div class="inner-toggle">
+                                        <ul class="login links">
+                                            <li>
+                                                <a href="@Url.Action("Register", "Customers")"><i class="fa fa-sign-in"></i> Đăng ký</a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("Login", "Customers")"><i class="fa fa-key"></i> Đăng nhập</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+                                <div class="quick-access">
+                                    <div class="quickaccess-toggle">
+                                        <i class="fa fa-list"></i>
+                                    </div>
+                                    <div class="inner-toggle">
+                                        <ul class="links">
+                                            <li>
+                                                <a id="mobile-wishlist-total" href="#" class="wishlist">
+                                                    <i class="fa fa-pencil-square-o"></i> Kiểm tra đơn hàng
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="@Url.Action("ViewCart", "ShoppingCart")" class="shoppingcart">
+                                                    <i class="fa fa-shopping-cart"></i> Giỏ hàng
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Header -->
+            <header id="header">
+                <div id="header_main">
+                    <div class="container">
+                        <div class="row">
+                            <!--logo-->
+                            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-8">
+                                <h1 class="pull-left">
+                                    <a href="@Url.Action("Index", "Home")" class="logo" title="Fairy Garden">
+                                        <img src="~/Assets/client/images/logo.png" alt="Fairy Garden">
+                                    </a>
+                                </h1>
+                            </div>
+                            <!-- end logo -->
+                            <!-- Search -->
+                            <div class="col-lg-6 col-md-5 col-sm-4 hidden-xs">
+                                <div class="search_box">
+                                    <div class="search_wrapper">
+                                        @using (Html.BeginForm("Search", "Products", FormMethod.Get))
+                                        {
+                                            <input type="text" name="keyword" class="index_input_search" placeholder="Tìm kiếm ở đây..." />
+                                            <button class="btn_search_submit btn" type="submit" id="btnsearch"><span>Tìm ngay</span></button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Search -->
+
+
+                            <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                                <!-- Cart -->
+                                <div class="cart_header">
+                                    <a href="@Url.Action("ViewCart", "ShoppingCart")" title="Giỏ hàng">
+                                        <span class="cart_header_icon">
+                                            <img src="~/Assets/client/images/icon/cart.png"/>
+                                        </span>
+                                        <span class="box_text">
+                                            <strong class="cart_header_count">Giỏ hàng <span id="totalQuantity"></span></strong>
+                                            <span class="cart_price"></span>
+                                        </span>
+                                    </a>
+
+                                    <div class="cart_header_top_box" id="subMenuCart"></div>
+                                </div>
+                                <!-- End Cart -->
+                                <!-- Account -->
+                                <div class="user_login">
+                                    <div>
+                                        <div class="user_login_icon">
+                                            <img src="~/Assets/client/images/icon/user.png"/>
+                                        </div>
+                                        @if (Session["CustomerName"] == null)
+                                        {
+                                            <div class="box_text">
+                                                <strong>Tài khoản</strong>
+                                            </div>
+                                            <div class="user_box">
+                                                <ul>
+                                                    <li><a href="@Url.Action("Login", "Customers")">Đăng nhập</a></li>
+                                                    <li><a href="@Url.Action("Register", "Customers")">Đăng ký</a></li>
+                                                </ul>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="box_text">
+                                                <strong>Hello @Session["CustomerName"]</strong>
+                                            </div>
+                                            <div class="user_box">
+                                                <ul>
+                                                    <li><a href="@Url.Action("CustomerProfile", "Customers")">Thông tin cá nhân</a></li>
+                                                    <li><a href="@Url.Action("Logout", "Customers")">Đăng xuất</a></li>
+                                                </ul>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+
+                                <!-- End account -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Mobile zone-->
+                <div id="header_mobile">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Menu mobile -->
+                            <button type="button" class="navbar-toggle collapsed" id="trigger_click_mobile">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+
+                            <div id="mobile_wrap_menu" class="visible-xs visible-sm">
+                                <div class="user_mobile">
+                                    <div class="icon_user_mobile">
+                                        <img src="~/Assets/client/images/product/tree-bonsai.jpg" alt="account">
+                                    </div>
+                                    <div class="login_mobile">
+                                        <a href="@Url.Action("Login", "Customers")" class="login-btn">Đăng nhập </a>
+                                        <a href="@Url.Action("Register", "Customers")" class="login-btn"> / Đăng ký</a>
+                                    </div>
+                                    <div class="close_menu"></div>
+                                </div>
+                                <div class="content_menu">
+                                    <ul>
+                                        <li class="level0"><a class='' href="@Url.Action("Index", "Home")"><span>Trang chủ</span></a></li>
+                                        <li class="level0"><a class='' href="@Url.Action("About", "Home")"><span>Giới thiệu</span></a></li>
+                                        <li class="level0"><a class='' href="@Url.Action("AllProduct", "Products")"><span>Sản phẩm</span></a></li>
+                                        <li class="level0"><a class='' href="@Url.Action("Index", "Blogs")"><span>Blog</span></a></li>
+                                        <li class="level0"><a class='' href="@Url.Action("Contact", "Home")"><span>Liên hệ</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- End menu mobile -->
+
+                            <div class="pull-right mobile-menu-icon-wrapper">
+                                <!-- Logo mobile -->
+                                <div class="logo logo-mobile">
+                                    <a href="" title="Fairy Garden">
+                                        <img src="~/Assets/client/images/logo.png" alt="Fairy Garden">
+                                    </a>
+                                </div>
+                                <!-- End Logo mobile -->
+                                <!-- Cart mobile -->
+                                <div class="cart_header" id="cart-target">
+                                    <a href="@Url.Action("ViewCart", "ShoppingCart")" title="Giỏ hàng">
+                                        <div class="cart_header_icon"></div>
+                                        <div class="box_text">
+                                            <strong class="cart_header_count"><span>0</span></strong>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!-- End Cart mobile -->
+                            </div>
+
+                            <div class="clearfix"></div>
+                            <!-- Search mobile -->
+                            <div class="search_mobile col-md-12">
+                                <div class="search_box">
+                                    <div class="search_wrapper">
+                                        <input type="text" name="search" class="index_input_search" id="txtsearch2" />
+                                        <button class="btn_search_submit btn " type="button" id="btnsearch2"><span><i class="fa fa-search"></i></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End search mobile -->
+                        </div>
+                    </div>
+                </div>
+                <!--End mobile zone-->
+            </header>
+            <!-- End header -->
+            <!-- Main menu -->
+            <nav class="navbar-main">
+                <div id="mb_mainnav">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12 col-xs-12 vertical_menu">
+                                <div id="mb_verticle_menu" class="menu-quick-select">
+                                    <div class="title_block">
+                                        <span>Danh mục sản phẩm</span>
+                                    </div>
+                                    <div id="menuverti" class="block_content navbar_menuvertical">
+                                        @{Html.RenderAction("Categories", "Home"); }
+                                    </div>
+                                </div>
+                            </div>
+
+                            <nav class="col-md-9 col-sm-12 col-xs-12 p-l-0">
+                                <ul class='menu nav navbar-nav menu_hori'>
+                                    <li class="level0">
+                                        @Html.ActionLink("Trang chủ", "Index", "Home")
+                                    </li>
+                                    <li class="level0">
+                                        @Html.ActionLink("Giới thiệu", "About", "Home")
+                                    </li>
+                                    <li class="level0">
+                                        <a class='' href="@Url.Action("AllProduct", "Products")"><span>Sản phẩm</span></a>
+                                    </li>
+                                    <li class="level0">
+                                        <a class='' href="@Url.Action("Index", "Blogs")"><span>Blog</span></a>
+                                    </li>
+                                    <li class="level0">
+                                        @Html.ActionLink("Liên hệ", "Contact", "Home")
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- End main menu -->
+        </div>
+        @* End header *@
+
+        @RenderBody()
+
+        @* Footer *@
+        <footer class="footer-content">
+            <div class="footer_top">
+                <div class="container">
+                    <div class="footer_top_wrap">
+                        <div class="row">
+                            <!-- footer col 1 -->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="footer_block">
+                                    <h4 class="footer_block_title">
+                                        Về chúng tôi
+                                    </h4>
+                                    <div class="block_content">
+                                        <ul class="list_group">
+                                            <li class="item">
+                                                <a href="@Url.Action("About", "Home")">
+                                                    Giới thiệu
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="@Url.Action("Return", "Home")">
+                                                    Giao hàng - Đổi trả
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="@Url.Action("Security","Home")">
+                                                    Chính sách bảo mật
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="@Url.Action("Contact", "Home")">
+                                                    Liên hệ
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End footer col 1 -->
+                            <!-- footer col 2 -->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="footer_block">
+                                    <h4 class="footer_block_title">
+                                        Trợ giúp
+                                    </h4>
+                                    <div class="block_content">
+                                        <ul class="list_group">
+                                            <li class="item">
+                                                <a href="@Url.Action("ShoppingGuide", "Home")">
+                                                    Hướng dẫn mua hàng
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="@Url.Action("PaymentGuide", "Home")">
+                                                    Hướng dẫn thanh toán
+                                                </a>
+                                            </li>
+                                            <li class="item">
+                                                <a href="@Url.Action("TraddingAccount", "Home")">
+                                                    Tài khoản giao dịch
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End footer col 2 -->
+                            <!-- footer col 3 -->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="footer_block">
+                                    <h4 class="footer_block_title">
+                                        Đăng ký nhận bản tin
+                                    </h4>
+                                    <div class="block_content">
+                                        <div class="des_newsletter_form">
+                                            Đăng Ký Thành Viên Để Nhận Bản Tin Mỗi Ngày:
+                                        </div>
+                                        <form id="newsletter_form" class="m-b-20 contact-form">
+                                            <div class="newsletter_wrap">
+                                                <input required="" id="contact_email" autocomplete="off" type="email">
+                                                <label>Email của bạn </label>
+                                                <button class="btn-newsletter" type="submit">
+                                                    <span><i class="fa fa-paper-plane-o"></i></span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End footer col 3 -->
+                            <!-- footer col 4 -->
+                            <div class="col-md-3 col-sm-6 col-xs-12">
+                                <div class="footer_block">
+                                    <h4 class="footer_block_title">
+                                        Theo dõi trên Fanpage
+                                    </h4>
+                                </div>
+                            </div>
+                            <!-- End footer col 4 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer_bottom">
+                <div class="container">
+                    <div class="footer_bottom_wrap">
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="footer_address">
+                                    <p><span>Đồ án tốt nghiệp chuyên ngành CNTT - 14T</span></p>
+                                    <p><span>Địa chỉ: Trường ĐHBK - ĐH Đà Nẵng</span></p>
+                                    <p><span>Số di động: 0934 087 969</span></p>
+                                    <p><span>Email: ptdat061296@gmail.com</span></p>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 text-right text-center-xs">
+                                <div class="copy_right">
+                                    <p>
+                                        &copy; @DateTime.Now.Year. Bản quyền thuộc về <a rel="nofollow" href="https://www.facebook.com/ptdat61296" target="_blank">Tiến Đạt</a>. Powered by <a href="https://www.facebook.com/ptdat61296" target="_blank">Tiến Đạt</a>
+                                    </p>
+                                </div>
+                                <div class="social_footer">
+                                    <ul>
+                                        <li><a href="https://www.facebook.com/"><span><i class="fa fa-facebook"></i></span></a></li>
+                                        <li><a href="https://twitter.com/"><span><i class="fa fa-twitter"></i></span></a></li>
+                                        <li><a href="https://www.pinterest.com"><span><i class="fa fa-pinterest"></i></span></a></li>
+                                        <li><a href="https://youtube.com/"><span><i class="fa fa-youtube"></i></span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        @* End Footer *@
+    </div>
+
+    <script src="~/Assets/client/js/shoppingCart.js" type="text/javascript"></script>
+    <a href="javascript:void(0);" class="back-to-top"><span>Top</span></a>
+</body>
+</html>

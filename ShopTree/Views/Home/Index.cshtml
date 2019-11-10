@@ -1,0 +1,219 @@
+﻿@* Slide show*@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-9 ">
+            <div class="homeslider">
+                <div id="owl-slider" class="owl-carousel owl-carousel-banner">
+                    <div class="item">
+                        <a href="javasccript:void(0)"><img src="~/Assets/client/images/banner/banner-top-bonsai.jpg" alt="1"></a>
+                    </div>
+                    <div class="item">
+                        <a href="javasccript:void(0)"><img src="~/Assets/client/images/banner/banner-top-cactus.jpg" alt="2"></a>
+                    </div>
+                    <div class="item">
+                        <a href="javasccript:void(0)"><img src="~/Assets/client/images/banner/banner-top-succulent.jpg" alt="3"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@* End slide show*@
+
+@* Advertisement *@
+<section id="service">
+    <div class="container m-b-30">
+        <div class="row">
+            <div id="service_home" class="clearfix">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 col-xxs-12 text-center m-b-xs-10">
+                    <div class="service_item">
+                        <div class="icon icon_product">
+                            <img src="~/Assets/client/images/icon/icon_1.png" alt="">
+                        </div>
+                        <div class="description_icon">
+                            <span class="large-text">
+                                Miễn phí giao hàng
+                            </span>
+                            <span class="small-text">
+                                Cho hóa đơn từ 450,000đ
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 col-xxs-12 text-center m-b-xs-10">
+                    <div class="service_item">
+                        <div class="icon icon_product">
+                            <img src="~/Assets/client/images/icon/icon_2.png" alt="">
+                        </div>
+                        <div class="description_icon">
+                            <span class="large-text">
+                                Giao hàng trong ngày
+                            </span>
+                            <span class="small-text">
+                                Với tất cả đơn hàng
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center m-b-xs-10">
+                    <div class="service_item">
+                        <div class="icon icon_product">
+                            <img src="~/Assets/client/images/icon/icon_3.png" alt="">
+                        </div>
+                        <div class="description_icon">
+                            <span class="large-text">
+                                Nhiều mẫu mã
+                            </span>
+                            <span class="small-text">
+                                Cam kết chất lượng
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@* End Advertisement *@
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!--Begin-->
+                <div class="box-adv">
+                    <div class="sidebar_banner">
+                        <div class="img_banner">
+                            <a href="#">
+                                <img src="~/Assets/client/images/banner/banner-4.jpg" class="img-responsive lazy">
+                                <div class="figcaption"></div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sidebar_banner">
+                        <div class="img_banner">
+                            <a href="#">
+                                <img src="~/Assets/client/images/banner/banner-grass.jpg" class="img-responsive lazy">
+                                <div class="figcaption"></div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!--End-->
+                <!-- Blog sidebar -->
+                <div class="sidebar_blogs">
+                    <h3 title="bài viết mới" class="sidebar_title">
+                        Bài viết nổi bật
+                    </h3>
+                    @{ Html.RenderAction("_BlogSideBar", "Home");}
+                </div>
+                <!-- End blog sidebar -->
+            </div>
+
+            <div class="col-md-9">
+
+                <div class="product_home">
+                    <div class="product_home_image">
+                        <a href="javascript:void(0)">
+                            <img src="~/Assets/client/images/banner/banner-cactus.jpg" alt="Cây xương rồng">
+                            <div class="figcaption"></div>
+                        </a>
+                    </div>
+
+                    <div class="clearfix">
+                        <div class="section-heading">
+                            <h2 title="Xương rồng">
+                                <span>Xương rồng</span>
+                            </h2>
+                        </div>
+                    </div>
+
+                    <div class="clearfix">
+                        @{ Html.RenderAction("_ProductList", "Products", new { @categoryId = 7 });}
+                    </div>
+
+                    <div class="show_more">
+                        Mời quý khách <a href="@Url.Action("GetProductByCategoryId", "Products", new { @categoryId = 7 })">Xem thêm các loại xương rồng khác</a> khác
+                    </div>
+                </div>
+
+                <div class="product_home">
+                    <div class="product_home_image">
+                        <a href="javascript:void(0)">
+                            <img src="~/Assets/client/images/banner/banner-sen-da.jpg" alt="Sen đá">
+                            <div class="figcaption"></div>
+                        </a>
+                    </div>
+                    <div class="clearfix">
+                        <div class="section-heading">
+                            <h2 title="Sen đá">
+                                <span>Sen đá</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        @{ Html.RenderAction("_ProductList", "Products", new { @categoryId = 6 });}
+                    </div>
+                    <div class="show_more">
+                        Mời quý khách <a href="@Url.Action("GetProductByCategoryId","Products",new { @categoryId = 6})">Xem thêm các loại sen đá</a> khác
+                    </div>
+                </div>
+
+                <div class="product_home">
+                    <div class="product_home_image">
+                        <a href="#">
+                            <img src="~/Assets/client/images/banner/banner-bonsai.jpg" alt="Bonsai">
+                            <div class="figcaption"></div>
+                        </a>
+                    </div>
+                    <div class="clearfix">
+                        <div class="section-heading">
+                            <h2 title="Bonsai">
+                                <span>Cây để trong nhà</span>
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="clearfix">
+                        @{ Html.RenderAction("_ProductList", "Products", new { @categoryId = 5 });}
+                    </div>
+                    <div class="show_more">
+                        Mời quý khách <a href="@Url.Action("GetProductByCategoryId","Products",new { @categoryId = 5})">Xem thêm các loại cây cảnh trong nhà</a> khác
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="partner">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                <!--Blog-->
+                <section id="blog_index" class="container m-b-20">
+                    <div class="row">
+                        <div class="col-md-12 col-xs-12">
+                            <div class="section-heading">
+                                <h2 title="kinh nghiệm trồng cây cảnh">
+                                    <span>Kinh nghiệm trồng cây cảnh</span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        @{ Html.RenderAction("_BlogFooter", "Home");}
+                    </div>
+                </section>
+                <!--EndBlog-->
+            </div>
+        </div>
+    </div>
+</div>
+
+

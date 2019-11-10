@@ -1,0 +1,10 @@
+﻿@using ShopTree.Models;
+@model List<PaymentMethod>
+
+
+<select class="form-control" name="PaymentMethodIdView">
+    @foreach (var item in Model)
+    {
+        <option value="@item.Id">@item.Name</option>
+    }
+</select>

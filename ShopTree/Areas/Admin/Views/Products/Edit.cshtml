@@ -1,0 +1,138 @@
+﻿@model ShopTree.Areas.Admin.Models.ProductViewModelAdmin
+@using ShopTree.Models;
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    var categoryList = ViewBag.CategoryList as List<Category>;
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>@Model.Name</strong>
+                        </div>
+                        @using (Html.BeginForm("Edit", "Products", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                            <div class="card-body">
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <input type="hidden" name="page" value="@ViewBag.Page" />
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Tên sản phẩm :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control"})
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Name", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Độ ưu tiên :</label>
+                                        <div class="col-md-9">
+                                            <input type="number" name="Priority" min="1" class="form-control" value="@Model.Priority">
+                                            <div class="field-error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Danh mục :</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" name="CategoryId">
+                                                <option value="@Model.CategoryId" selected>@Model.CategoryName</option>
+                                                @foreach (var item in categoryList)
+                                                {
+                                                    if (item.Id != Model.CategoryId)
+                                                    {
+                                                        <option value="@item.Id">@item.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Discount :</label>
+                                        <div class="col-md-9">
+                                            <input type="number" min="0" max="100" name="Discount" class="form-control" value="@Model.Discount">
+                                            <div class="field-error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Giá :</label>
+                                        <div class="col-md-9">
+                                            <input type="number" min="0" step="1000" name="Price" class="form-control" value="@Model.Price">
+                                            <div class="field-error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Lượt xem :</label>
+                                        <div class="col-md-9">
+                                            <input type="number" min="1" name="Views" class="form-control" value="@Model.Views">
+                                            <div class="field-error"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Số lượng :</label>
+                                        <div class="col-md-9">
+                                            <input type="number" min="0" name="StockQuantity" class="form-control" value="@Model.StockQuantity">
+                                            <div class="field-error"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Trạng thái :</label>
+                                        <div class="col-md-9">
+                                            <input type="checkbox" name="Status" value="@Model.Status.ToString()" class="form-control custom-input-checkbox" checked="@Model.Status" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Mô tả :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "10" })                               
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Avatar :</label>
+                                        <div class="col-md-9">
+                                            <input type="file" accept="image/*" name="ImageFile" onchange="loadFile(event)">
+                                            <div class="img-container col-md-9">
+                                                <img src="@Url.Content(Model.Avatar)" id="preview" alt="@Model.Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllProduct", "Products", new { area = "Admin", page = ViewBag.Page })">
+                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                </a>
+                                <button class="custom-btn custom-btn-info" type="submit">
+                                    <i class="fa fa-edit"></i> Lưu
+                                </button>
+                                <div class="loading-container">
+                                    <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                    Loading....
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

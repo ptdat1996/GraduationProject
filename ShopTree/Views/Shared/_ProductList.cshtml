@@ -1,0 +1,10 @@
+﻿@model List<ShopTree.Models.ProductViewModel>
+
+<div class="product-list">
+
+    @foreach (var item in Model)
+    {
+        Html.RenderAction("_ProductItem", "Products", item);
+    }
+
+</div>

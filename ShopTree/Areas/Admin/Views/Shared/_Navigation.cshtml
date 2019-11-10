@@ -1,0 +1,79 @@
+﻿@using ShopTree.Common;
+
+<nav class="sidebar-nav">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/trang-chu"><i class="icon-speedometer"></i>Trang chủ </a>
+        </li>
+
+        <li class="divider"></li>
+
+        <li class="nav-title">
+            Tác vụ
+        </li>
+
+        @if (!User.IsInRole(Constants.ROLE_SHIPPER))
+        {
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-social-dropbox"></i>Quản lý sản phẩm</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AllProduct", "Products", new { area = "Admin" })"><i class="icon-list"></i>Danh sách</a>
+                    </li>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("DeletedProduct", "Products", new { area = "Admin" })"><i class="icon-trash"></i>Sản phẩm đã xoá</a>
+                        </li>
+                    }
+                </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-note"></i>Quản lý danh mục</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AllCategory", "Categories", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Quản lý đơn hàng</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AllOrder", "Orders", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-user"></i> Quản lý người dùng</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AllCustomer", "Customers", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i>Quản lý nhân viên</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AllEmployee", "Employees", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-docs"></i>Quản lý blog</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("AllBlog", "Blogs", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+        }
+
+    </ul>
+</nav>

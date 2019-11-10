@@ -1,0 +1,15 @@
+﻿@model List<ShopTree.Models.ProductViewModel>
+
+<!--Product relation-->
+<div class="product-content product-other">
+    <h1 title="products" class="page_heading ">
+        Sản phẩm liên quan
+    </h1>
+    <div class="product_list grid clearfix">
+        @foreach (var item in Model)
+        {
+            Html.RenderAction("_ProductItem", "Products", item);
+        }
+    </div>
+</div>
+<!--End product relation-->

@@ -1,0 +1,14 @@
+﻿@model List<ShopTree.Models.Category>
+@using ShopTree.Common
+
+<ul class='nav_verticalmenu'>
+    @foreach (var item in Model)
+    {
+        <li class="level0">
+            <a href="@Url.Action("GetProductByCategoryId", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })">
+                <img class='icon-menu' src="@Url.Content(item.Avatar)"><span>@item.Name</span>
+            </a>
+        </li>
+    }
+</ul>
+

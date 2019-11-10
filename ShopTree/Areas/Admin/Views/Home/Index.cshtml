@@ -1,0 +1,21 @@
+﻿
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main">
+    <div class="background-index">
+        <div class="clock" onload="showTime()">
+            <span id="currentTime"></span>
+            <span>@DateTime.Now.ToString("dddd, dd MMMM yyyy")</span>
+        </div>
+
+        <div class="greeting-text">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <span>Xin chào, @ViewBag.Name</span>
+            }           
+        </div>
+    </div>
+</div>
+

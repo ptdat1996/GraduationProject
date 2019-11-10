@@ -1,0 +1,152 @@
+﻿@using PagedList.Mvc
+@using System.Globalization
+@model PagedList.IPagedList<ShopTree.Models.Product>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+
+    <!-- Breadcrumb -->
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item">Admin</li>
+        <li class="breadcrumb-item active"><a href="@Url.Action("AllProduct", "Products", new { area = "Admin" })">@ViewBag.Title</a></li>
+    </ol>
+
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a class="custom-btn custom-btn-success" href="@Url.Action("Create", "Products", new { area = "Admin" })">
+                                <i class="fa fa-plus"></i>
+                                Tạo mới
+                            </a>                                                    
+                            <div class="anchor-right">
+                                <div class="col-7 row order-content">
+                                    <label class=" col-4 col-form-label">Sắp xếp theo :</label>
+                                    <select class="col-8 form-control" onchange="location = this.value;">
+                                        <option>--------------/--------------</option>
+                                        <option value="@Url.Action("AllProduct", "Products", new { area = "Admin", sortOrder = "name_asc", keyword = ViewBag.Keyword })">Tên sản phẩm(A -> Z)</option>
+                                        <option value="@Url.Action("AllProduct", "Products", new { area = "Admin", sortOrder = "name_desc", keyword = ViewBag.Keyword })">Tên sản phẩm(Z -> A)</option>
+                                        <option value="@Url.Action("AllProduct", "Products", new { area = "Admin", sortOrder = ViewBag.CategorySortParam, keyword = ViewBag.Keyword })">Danh mục</option>
+                                        <option value="@Url.Action("AllProduct", "Products", new { area = "Admin", sortOrder = "price_asc", keyword = ViewBag.Keyword })">Giá(thấp -> cao)</option>
+                                        <option value="@Url.Action("AllProduct", "Products", new { area = "Admin", sortOrder = "price_desc", keyword = ViewBag.Keyword })">Giá(cao -> thấp)</option>
+                                    </select>
+                                </div>
+
+                                @using (Html.BeginForm("AllProduct", "Products", new { area = "Admin" }, FormMethod.Get))
+                                {
+                                    <div class="form-content">
+                                        @Html.TextBox("keyword", ViewBag.Keyword as string, new { placeholder = "Tìm kiếm tên sản phẩm...." })                                        
+                                        <button type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                        <span class="search-result">@ViewBag.SearchResult</span>
+
+                        <div class="card-body">
+                            <table class="table table-responsive-sm table-bordered table-striped table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Tên sản phẩm</th>
+                                        <th>Danh mục</th>
+                                        <th>Giá</th>
+                                        <th>Số lượng</th>
+                                        <th>Trạng thái</th>
+                                        <th>&nbsp;</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.Id</td>
+                                            <td class="align-td">
+                                                <img src="@Url.Content(item.Avatar)" class="image-avatar" alt="@item.Name" />
+                                            </td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Category.Name</td>
+                                            <td>@item.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                            <td>@item.StockQuantity</td>
+                                            <td>
+                                                @if (item.Status == true)
+                                                {
+                                                    <span class="badge badge-success">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-secondary">Inactive</span>
+                                                }
+                                            </td>
+                                            <td class="td-contain-button">
+                                                <a class="custom-btn custom-btn-warning" href="@Url.Action("Detail", "Products", new { area = "Admin", id = item.Id, page = Model.PageNumber })">
+                                                    <i class="fa fa-check-square-o"></i>
+                                                    Chi tiết
+                                                </a>
+                                                @if (item.Status == true)
+                                                {
+                                                    <a class="custom-btn custom-btn-info" href="@Url.Action("Edit", "Products", new { area = "Admin", id = item.Id, page = Model.PageNumber })">
+                                                        <i class="fa fa-edit"></i>
+                                                        Chỉnh sửa
+                                                    </a>
+                                                }
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    if (item.Status == true)
+                                                    {
+                                                        <a class="custom-btn custom-btn-remove" data-toggle="modal" data-target="#confirm-delete" data-page-index="@Model.PageNumber" data-page="Product" data-id="@item.Id" data-prop-name="@item.Name">
+                                                            <i class="fa fa-minus-circle"></i>
+                                                            Xoá
+                                                        </a>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                            <div class="pageinate">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="pagination">
+                                    <div class="row">
+                                        <div>
+                                            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+                                            <span>
+                                                @Html.PagedListPager(Model, page => Url.Action("AllProduct", "Products", new { page, area = "Admin", sortOrder = ViewBag.CurrentSort, keyword = ViewBag.Keyword }))
+                                            </span>
+                                            @if (ViewBag.IsSearching)
+                                            {
+                                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllProduct", "Products", new { area = "Admin" })">
+                                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                                </a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                @Html.Partial("_ModalConfirmDelete")
+                            }
+                        </div>
+                    </div>
+                    <!--/.col-->
+                </div>
+                <!--/.row-->
+            </div>
+        </div>
+        <!-- /.conainer-fluid -->
+    </div>
+</main>
+

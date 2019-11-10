@@ -1,0 +1,116 @@
+﻿@model ShopTree.Models.Product
+@using System.Globalization
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>@Model.Name</strong>
+                        </div>
+                        <form class="form-horizontal">
+                            <div class="card-body">
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Tên sản phẩm :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@Model.Name" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Độ ưu tiên :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@Model.Priority" readonly="readonly">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Danh mục :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@Model.Category.Name" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Discount :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@string.Concat(Model.Discount.ToString(), "%")" readonly="readonly">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Giá :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@Model.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Lượt xem :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@Model.Views" readonly="readonly">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Số lượng :</label>
+                                        <div class="col-md-9">
+                                            <input class="form-control" value="@Model.StockQuantity" readonly="readonly">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Trạng thái :</label>
+                                        <div class="col-md-9">
+                                            <input type="checkbox" class="form-control custom-input-checkbox" checked="@Model.Status" disabled="disabled"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Mô tả :</label>
+                                        <div class="col-md-9">
+                                            <textarea rows="9" class="form-control" readonly="readonly">@Model.Description</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Avatar :</label>
+                                        <div class="col-md-9">
+                                            <div class="img-container col-md-9">
+                                                <img src="@Model.Avatar" id="preview" alt="@Model.Name" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllProduct", "Products", new { area = "Admin", page = ViewBag.Page })">
+                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                </a>
+                                @if (Model.Status == true)
+                                {
+                                    <a class="custom-btn custom-btn-info" href="@Url.Action("Edit", "Products", new { area = "Admin", id = Model.Id, page = ViewBag.Page })">
+                                        <i class="fa fa-edit"></i> Chỉnh sửa
+                                    </a>
+                                }
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

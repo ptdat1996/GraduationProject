@@ -1,0 +1,84 @@
+﻿@model ShopTree.Areas.Admin.Models.LoginViewModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="~/Assets/admin/img/favicon.png" />
+
+    <title>@ViewBag.Title</title>
+
+    <!-- Icons -->
+    <link href="~/Assets/admin/vendors/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/admin/vendors/css/simple-line-icons.min.css" type="text/css" rel="stylesheet" />
+
+    <!-- Main styles for this application -->
+    <link href="~/Assets/admin/css/style.css" type="text/css" rel="stylesheet" />
+
+</head>
+
+<body class="app flex-row align-items-center">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card-group mb-4">
+                    <div class="card panel-image">
+                    </div>
+                    <div class="card p-4">
+                        <div class="card-body">
+                            <h1>Đăng nhập</h1>
+                            @using (Ajax.BeginForm("Login", "Employees", new { area = "Admin" },
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    LoadingElementId = "loader",
+                                    OnBegin = "OnBegin",
+                                    OnSuccess = "OnSuccess"
+                                }))
+                            {
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="icon-user"></i></span>
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", autofocus = "autofocus", placeholder = "Tài khoản" })
+                                </div>
+                                <div class="field-error mb-2">
+                                    @Html.ValidationMessage("UserName", new { @class = "text-danger" })
+                                </div>
+                                <div class="input-group mb-2">
+                                    <span class="input-group-addon"><i class="icon-lock"></i></span>
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Mật khẩu" })
+                                </div>
+                                <div class="field-error mb-2">
+                                    @Html.ValidationMessage("Password", new { @class = "text-danger" })
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <button type="submit" class="btn px-4 btn-login">Đăng nhập</button>
+                                    </div>
+                                    <div class="col-6 loading-text" id="loader">
+                                        <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                        Loading....
+                                    </div>
+                                </div>
+
+                                <div class="return-error"></div>
+                            }       
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and necessary plugins -->
+    <script src="~/Assets/admin/vendors/js/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/popper.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/js/scripts.js" type="text/javascript"></script>
+</body>
+</html>

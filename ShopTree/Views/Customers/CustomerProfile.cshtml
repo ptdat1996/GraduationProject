@@ -1,0 +1,104 @@
+﻿@model ShopTree.Models.Customer
+
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="menu-account ng-scope">
+                    <h3>
+                        <span>
+                            Quản lý cá nhân
+                        </span>
+                    </h3>
+                    <ul>
+                        <li class="active"><a href="javascript:void(0);"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
+                        <li><a href="@Url.Action("CheckOrder", "ShoppingCart")"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
+                        <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+
+                <div class="breadcrumb clearfix">
+                    <ul>
+                        <li class="home">
+                            <a title="Đến trang chủ" href="@Url.Action("Index", "Home")" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                        </li>
+                        <li class="icon-li"><strong>Thông tin tài khoản</strong> </li>
+                    </ul>
+                </div>
+                <div class="comunication-content clearfix">
+                    <h1 class="title"><span>Thông tin tài khoản</span></h1>
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert-info alert fade in">
+                            <button data-dismiss="alert" class="close"></button>
+                            <i class="fa-fw fa fa-check"></i>
+                            <span>@ViewBag.Message</span>
+                        </div>
+                    }
+                    <div class="col-md-8 col-md-offset-2 col-xs-12 col-sm-12 col-xs-offset-0 col-sm-offset-0">
+                        @using (Html.BeginForm("CustomerProfile", "Customers", FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                            <h2>Thông tin tài khoản</h2>
+                            @Html.HiddenFor(model => model.Id)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Mật khẩu</label>
+                                <div class="col-sm-9">
+                                    <label class="control-label">***</label>
+                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                </div>
+                            </div>
+                            <h2>Thông tin cá nhân</h2>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-sm-9">
+                                    @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @required = "required" } })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-3" })
+                                <div class="col-sm-9">
+                                    @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @required = "required",@rows = 4})
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () {
+            $(".menu-quick-select ul").show();
+        }, function () {
+            $(".menu-quick-select ul").hide();
+        });
+    });
+</script>

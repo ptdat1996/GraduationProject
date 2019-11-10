@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="~/Assets/admin/img/favicon.png" />
+    <title>@ViewBag.Title</title>
+
+    <!-- Icons -->
+    <link href="~/Assets/admin/vendors/css/font-awesome.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/admin/vendors/css/simple-line-icons.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/admin/vendors/css/font-orbitron.css" type="text/css" rel="stylesheet" />
+
+    <!-- Main styles for this application -->
+    <link href="~/Assets/admin/css/style.css" type="text/css" rel="stylesheet" />
+
+    <!-- Styles required by this views -->
+    <link href="~/Assets/admin/vendors/css/daterangepicker.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/admin/vendors/css/gauge.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/Assets/admin/vendors/css/toastr.min.css" type="text/css" rel="stylesheet" /> 
+</head>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden sidebar-minimized brand-minimized">
+    <header class="app-header navbar">
+        <button class="navbar-toggler mobile-sidebar-toggler d-lg-none" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/admin/trang-chu"></a>
+
+        <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <img src="~/Assets/admin/img/avatars/avatar.jpg" class="img-avatar" alt="admin@bootstrapmaster.com" />
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header text-center">
+                        <strong>Settings</strong>
+                    </div>
+                    <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Thông tin cá nhân</a>
+                    <div class="divider"></div>
+                    <a class="dropdown-item" href="#"><i class="fa fa-lock"></i> Đổi mật khẩu</a>
+                    <a class="dropdown-item" href="/admin/dang-xuat/"><i class="fa fa-sign-out"></i> Đăng xuất</a>
+                </div>
+            </li>
+        </ul>
+    </header>
+    <div class="app-body">
+        <div class="sidebar">
+            <form class="sidebar-form">
+                <div class="form-group p-2  mb-0">
+                    <input type="text" class="form-control" aria-describedby="search" placeholder="Tìm kiếm...">
+                </div>
+            </form>
+
+            @RenderPage("_Navigation.cshtml")
+
+            <button class="sidebar-minimizer brand-minimizer" type="button"></button>
+        </div>
+        <!-- Main content -->
+        @RenderBody()
+    </div>
+    <footer class="app-footer">
+        <span><a href="https://www.facebook.com/ptdat61296">Tiến Đạt</a> &copy; @DateTime.Now.Year.</span>
+        <span class="ml-auto">Powered by <a href="https://www.facebook.com/ptdat61296">Tiến Đạt</a></span>
+    </footer>
+
+    <!-- Bootstrap and necessary plugins -->
+    <script src="~/Assets/admin/vendors/js/jquery.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/popper.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/vendors/js/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+
+    <!-- SimpliQ main scripts -->
+    <script src="~/Assets/admin/js/app.js" type="text/javascript"></script>
+    <script src="~/Assets/admin/js/scripts.js" type="text/javascript"></script>
+</body>
+</html>

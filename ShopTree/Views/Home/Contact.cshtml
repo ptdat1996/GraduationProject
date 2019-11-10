@@ -1,0 +1,111 @@
+﻿<div id="page">
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <!--Begin-->
+                    <div class="box-support-online">
+                        <h3><span>Hỗ trợ trực tuyến</span></h3>
+                        <div class="support-online-block">
+                            <div class="support-hotline">
+                                HOTLINE<br><span>0934 087 969</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End-->
+                </div>
+                <div class="col-md-9">
+
+                    <div class="breadcrumb clearfix">
+                        <ul>
+                            <li class="home">
+                                <a title="Đến trang chủ" href="/trang-chu"><span itemprop="title">Trang chủ</span></a>
+                            </li>
+                            <li class="icon-li"><strong>Liên hệ</strong> </li>
+                        </ul>
+                    </div>
+
+                    <!--Begin-->
+                    <div class="contact-content clearfix">
+                        <div class="content clearfix">
+                            <h1 title="liên hệ">
+                                Liên hệ
+                            </h1>
+                            <div class="col-md-12 col-xs-12 col-sm-12">
+                                <div class="map clearfix">
+                                    <div class="map-canvas" id="map_canvas">
+                                        <a href="https://www.google.com/maps/place/Da+Nang+University+of+Technology/16.0735509,108.1499978,15z/data=!4m5!3m4!1s0x0:0x714561e9f3a7292c!8m2!3d16.0735509!4d108.1499978" target="_blank">
+                                            <img src="~/Assets/client/images/maps.png" />
+                                        </a>
+                                    </div>
+                                    <div class="map-information">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7" id="col-left contactFormWrapper">
+                                <h3>Liên hệ với chúng tôi</h3>
+                                <hr class="line-left">
+                                <p>
+                                    Nếu bạn có thắc mắc gì, có thể gửi yêu cầu cho chúng tôi, và chúng tôi sẽ liên lạc lại với bạn sớm nhất có thể.
+                                </p>
+                                <form method="post">
+                                    <div class="form-group">
+                                        <label class="sr-only">Tên</label>
+                                        <input required="" id="contactFormName" class="form-control input-lg" placeholder="Tên của bạn" autocapitalize="words" value="" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only">Số điện thoại</label>
+                                        <input required="" id="contactFormPhone" class="form-control input-lg" placeholder="Số điện thoại của bạn" autocapitalize="words" value="" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only">Email</label>
+                                        <input required="" name="contact[email]" placeholder="Email của bạn" class="form-control input-lg" autocorrect="off" autocapitalize="off" value="" type="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only">Tiêu đề</label>
+                                        <input required="" id="contactFormTitle" class="form-control input-lg" placeholder="Tiêu đề" value="" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="contactFormMessage" class="sr-only">Nội dung</label>
+                                        <textarea required="" rows="6" class="form-control" placeholder="Viết bình luận" id="contactFormMessage"></textarea>
+                                    </div>
+                                    <input class="btn btn-primary btn-lg" value="Gửi liên hệ" type="submit">
+                                </form>
+                            </div>
+                            <div class="col-md-5" id="col-right">
+                                <h3>Địa chỉ liên lạc</h3>
+                                <hr class="line-right">
+                                <h3 class="name-company">Đồ án tốt nghiệp chuyên ngành CNTT - 14T</h3>
+                                <p>&nbsp;</p>
+                                <ul class="info-address">
+                                    <li class="m-b-5">
+                                        <i class="fa fa-location-arrow m-r-5"></i>
+                                        <span>Trường ĐHBK - ĐH Đà Nẵng</span>
+                                    </li>
+                                    <li class="m-b-5">
+                                        <i class="fa fa-mail-forward m-r-5"></i>
+                                        <span>ptdat061296@gmail.com</span>
+                                    </li>
+                                    <li class="m-b-5">
+                                        <i class="fa fa-phone m-r-5"></i>
+                                        <span>0934 087 969</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--End-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () { $(".menu-quick-select ul").show(); }, function () { $(".menu-quick-select ul").hide(); });
+    });
+</script>

@@ -1,0 +1,143 @@
+﻿@model ShopTree.Areas.Admin.Models.ProductViewModelAdmin
+@using ShopTree.Models
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Tạo mới sản phẩm</strong>
+                        </div>
+
+                        @using (Html.BeginForm("Create", "Products", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Tên sản phẩm(*) :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Name, new { @class = "form-control", @placeholder = "Tên sản phẩm...." })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Name", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Độ ưu tiên(*) :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Priority, new { @class = "form-control", @type = "number", @min = "1", @value = "1" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Priority", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Danh mục :</label>
+                                        <div class="col-md-9">
+                                            <select name="CategoryId" class="form-control">
+                                                @foreach (var item in (List<Category>)ViewBag.CategoryList)
+                                                {
+                                                    <option value="@item.Id">@item.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Giảm giá :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBox("Discount", 0, new { @class = "form-control", @type = "number", @min = "0", @max = "100", @step = "1" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Discount", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Giá(*) :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Price, new { @class = "form-control", @type = "number", @min = "1000", @step = "1000", @value = "1000" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Price", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Lượt xem :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBox("Views", 1, new { @class = "form-control", @type = "number", @min = "1", @step = "1" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Views", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Số lượng(*) :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.StockQuantity, new { @class = "form-control", @type = "number", @min = "1", @step = "1", @value = "1" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("StockQuantity", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Trạng thái :</label>
+                                        <div class="col-md-9">
+                                            <input type="checkbox" name="Status" value="true" class="form-control custom-input-checkbox" checked="checked" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Mô tả :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "11" })
+                                            @Html.ValidationMessage("Description", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Avatar(*) :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.ImageFile, new { @type = "file", @accept = "image/*", @onchange = "loadFile(event)" })
+                                            @Html.ValidationMessage("ImageFile", new { @class = "text-danger" })                                      
+                                            <div class="field-error"></div>
+                                            <div class="img-container col-md-9">
+                                                <img src="#" id="preview" alt="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllProduct", "Products", new { area = "Admin" })">
+                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                </a>
+                                <button class="custom-btn custom-btn-success" type="submit">
+                                    <i class="fa fa-plus-circle"></i> Tạo mới
+                                </button>
+                                <div class="loading-container">
+                                    <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                    Loading....
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

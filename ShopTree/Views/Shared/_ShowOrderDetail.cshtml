@@ -1,0 +1,20 @@
+﻿@model List<ShopTree.Models.OrderDetail>
+@using System.Globalization
+
+<tbody>
+    @foreach (var item in Model)
+    {
+        var index = Model.IndexOf(item) + 1;
+        var subTotal = item.Price * item.Quantity;
+    <tr>
+        <td>@index</td>
+        <td>
+            <span>@item.Product.Name</span>
+        </td>
+        <td>@item.Price</td>
+        <td>@item.Quantity</td>
+        <td>@subTotal.Value.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+    </tr>
+    }
+
+</tbody>
