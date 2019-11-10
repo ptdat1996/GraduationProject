@@ -2,8 +2,6 @@
 @using System.Globalization
 @model ShopTree.Models.Order
 @{ 
-    var db = new ShopTreeEntities();
-    var methodName = db.PaymentMethods.Find(Model.PaymentMethodId).Name;
     ViewBag.Title = "Hoàn tất";
 }
 <div class="main">
@@ -31,8 +29,8 @@
                     </div>
                     <div class="payment-order clearfix">
                         <h3>Mã đơn hàng của bạn: <b>@Model.OrderCode</b></h3>
-                        <p><b>Ngày đặt: &nbsp;</b><i>@Model.OrderDate.GetValueOrDefault().ToLongDateString()</i></p>
-                        <p><b>Phương thức thanh toán: &nbsp;</b><i>@methodName</i></p>
+                        <p><b>Ngày đặt: &nbsp;</b><i>@Model.OrderDate.ToLongDateString()</i></p>
+                        <p><b>Phương thức thanh toán: &nbsp;</b><i>@Model.PaymentMethod.Name</i></p>
                         <h1>Thông tin đơn hàng</h1>
                         <table class="table">
                             <thead>
@@ -44,19 +42,18 @@
                                     <th>Thành tiền</th>
                                 </tr>
                             </thead>
-                            @{ Html.RenderAction("_ShowOrderDetail", "ShoppingCart",new { orderId = Model.Id});}
+                            @{ Html.RenderAction("_ShowOrderDetail", "ShoppingCart", new { orderId = Model.Id});}
                             <tfoot>
                                 <tr>
                                     <td colspan="4" class="text-right label-payment"><b>Tổng thanh toán:</b></td>
-                                    <td class="total-payment">@Model.Total.Value.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                    <td class="total-payment">@Model.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
                     <div class="clearfix col-md-12">
                         <div class="button text-right">
-                            <a class="btn btn-default" href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a>
-                            <a class="btn btn-primary" href="#">Đơn hàng của tôi</a>
+                            <a class="btn btn-warning" href="@Url.Action("Index", "Home")">Tiếp tục mua hàng</a>
                         </div>
                     </div>
                 </div>

@@ -185,8 +185,8 @@
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Models\BlogViewModel.cs" />
     <Compile Include="Areas\Admin\Models\CategoryViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\LoginViewModel.cs" />
-    <Compile Include="Areas\Admin\Models\ProductViewModel.cs" />
+    <Compile Include="Areas\Admin\Models\LoginViewModelAdmin.cs" />
+    <Compile Include="Areas\Admin\Models\ProductViewModelAdmin.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\FriendlyRoute.cs" />
     <Compile Include="Common\MyRoleProvider.cs" />
@@ -221,6 +221,7 @@
     <Compile Include="Models\Level.cs">
       <DependentUpon>ShopTree.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\Order.cs">
       <DependentUpon>ShopTree.tt</DependentUpon>
     </Compile>
@@ -305,6 +306,9 @@
     <Content Include="Models\ShopTree.edmx.diagram">
       <DependentUpon>ShopTree.edmx</DependentUpon>
     </Content>
+    <Content Include="Areas\Admin\Views\Employees\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

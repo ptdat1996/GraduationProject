@@ -19,7 +19,6 @@ namespace ShopTree.Areas.Admin.Controllers
         private const int pageSize = Constants.PAGE_SIZE_ADMIN;
         private int pageIndex = 1;
 
-        // GET: Admin/Products
         public ActionResult AllProduct(int? page, string sortOrder, string keyword)
         {
             ViewBag.Title = "Danh sách sản phẩm";

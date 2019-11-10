@@ -16,9 +16,12 @@ namespace ShopTree.Controllers
     {
         private ShopTreeEntities db = new ShopTreeEntities();
 
-        // GET: Customers
         public ActionResult Login()
         {
+            if(Session["CustomerId"] != null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
             ViewBag.Title = "Đăng nhập";
             return View();
         }
@@ -56,7 +59,7 @@ namespace ShopTree.Controllers
 
         public ActionResult Logout()
         {
-            if (Session["CustomerName"] != null)
+            if (Session["CustomerId"] != null)
             {
                 Session.Abandon();
             }

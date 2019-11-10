@@ -6,7 +6,7 @@ using ShopTree.Common;
 
 namespace ShopTree.Areas.Admin.Models
 {
-    public class LoginViewModel
+    public class LoginViewModelAdmin
     {
         [Required(ErrorMessage = Constants.ERR_REQUIRED_USERNAME)]
         public string UserName { get; set; }

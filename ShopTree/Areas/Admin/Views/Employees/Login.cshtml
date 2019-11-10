@@ -1,4 +1,4 @@
-﻿@model ShopTree.Areas.Admin.Models.LoginViewModel
+﻿@model ShopTree.Areas.Admin.Models.LoginViewModelAdmin
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,14 +41,14 @@
                             {
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="icon-user"></i></span>
-                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", autofocus = "autofocus", placeholder = "Tài khoản" })
+                                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @autofocus = "autofocus", @placeholder = "Tài khoản" })
                                 </div>
                                 <div class="field-error mb-2">
                                     @Html.ValidationMessage("UserName", new { @class = "text-danger" })
                                 </div>
                                 <div class="input-group mb-2">
                                     <span class="input-group-addon"><i class="icon-lock"></i></span>
-                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", placeholder = "Mật khẩu" })
+                                    @Html.PasswordFor(model => model.Password, new { @class = "form-control" })
                                 </div>
                                 <div class="field-error mb-2">
                                     @Html.ValidationMessage("Password", new { @class = "text-danger" })

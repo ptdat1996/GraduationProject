@@ -28,7 +28,7 @@ namespace ShopTree.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(LoginViewModelAdmin model)
         {
             if (!ModelState.IsValid)
             {

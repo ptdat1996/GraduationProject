@@ -28,6 +28,8 @@ namespace ShopTree.Common
 
         public const string ERR_REQUIRED_PASSWORD = "Mật khẩu không được trống";
 
+        public const string ERR_REQUIRED_EMAIL = "Email không được để trống";
+
         public const string ERR_REQUIRED_TITLE = "Tiêu đề không được trống";
 
         public const string ERR_REQUIRED_DESCRIPTION = "Mô tả không được trống";
@@ -47,6 +49,8 @@ namespace ShopTree.Common
         public const string ERR_WRONG_CREDENTIAL = "Sai tên tài khoản hoặc mật khẩu, vui lòng thử lại!";
 
         public const string ERR_LOCK_CREDENTIAL = "Tài khoản của bạn đang bị khoá!";
+
+        public const string ERR_INVALID_EMAIL = "Email không hợp lệ";
 
         public static string EmailAccount = ConfigurationManager.AppSettings["EmailAccount"];
 
