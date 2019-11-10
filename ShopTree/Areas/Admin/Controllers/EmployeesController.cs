@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using ShopTree.Areas.Admin.Models;
+using ShopTree.Common;
 using ShopTree.Models;
 
 namespace ShopTree.Areas.Admin.Controllers
@@ -48,7 +49,7 @@ namespace ShopTree.Areas.Admin.Controllers
                 return Json(new
                 {
                     status = false,
-                    message = "Tài khoản của bạn hiện tại đang bị khoá"
+                    message = Constants.ERR_LOCK_CREDENTIAL
                 });
             }
             else
@@ -56,7 +57,7 @@ namespace ShopTree.Areas.Admin.Controllers
                 return Json(new
                 {
                     status = false,
-                    message = "Sai tên tài khoản hoặc mật khẩu, vui lòng thử lại"
+                    message = Constants.ERR_WRONG_CREDENTIAL
                 });
             }
         }

@@ -26,6 +26,7 @@ namespace ShopTree.Controllers
         [HttpPost]
         public ActionResult Login(string email,string password)
         {
+            ViewBag.Title = "Đăng nhập";
             var customer = (from cus in db.Customers
                             where cus.Email.Equals(email)
                             select cus).SingleOrDefault();
@@ -41,14 +42,14 @@ namespace ShopTree.Controllers
                 else
                 {
                     //wrong password
-                    ViewBag.Message = "Wrong password, please try again!";
+                    ViewBag.Message = Constants.ERR_WRONG_CREDENTIAL;
                     return View();
                 }
             }
             else
             {
                 //wrong email
-                ViewBag.Message = "Wrong email, please try again!";
+                ViewBag.Message = Constants.ERR_WRONG_CREDENTIAL; 
                 return View();
             }
         }
@@ -124,7 +125,6 @@ namespace ShopTree.Controllers
             }
         }
 
-        // GET: Customers/Edit/5
         public ActionResult CustomerProfile()
         {
             ViewBag.Title = "Thông tin cá nhân";

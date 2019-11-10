@@ -77,18 +77,6 @@ namespace ShopTree.Areas.Admin.Controllers
             return View();
         }
 
-        //[HttpPost]
-        //public ActionResult Create(Product product)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Products.Add(product);
-        //        db.SaveChanges();
-        //        return RedirectToAction("AllProduct", "Products", new { area = "Admin" });
-        //    }
-        //    return View(product);
-        //}
-
         [HttpPost]
         public ActionResult Create(ProductViewModelAdmin productViewModel)
         {
@@ -159,22 +147,6 @@ namespace ShopTree.Areas.Admin.Controllers
             ViewBag.CategoryList = db.Categories.ToList();
             return View(productViewModel);
         }
-
-        //[HttpPost]
-        //public ActionResult Edit(Product product,int page)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(product).State = EntityState.Modified;      
-        //        if(product.Avatar == null)
-        //        {
-        //            db.Entry(product).Property(p => p.Avatar).IsModified = false;
-        //        }
-        //        db.SaveChanges();
-        //        return RedirectToAction("AllProduct", "Products", new { area = "Admin", page });
-        //    }
-        //    return View(product);
-        //}
 
         [HttpPost]
         public ActionResult Edit(ProductViewModelAdmin productViewModel, int page)

@@ -44,6 +44,10 @@ namespace ShopTree.Common
 
         public const string ERR_VALUE_DISCOUNT = "Tỉ lệ giảm giá lớn hơn 0 hoặc nhỏ hơn 100";
 
+        public const string ERR_WRONG_CREDENTIAL = "Sai tên tài khoản hoặc mật khẩu, vui lòng thử lại!";
+
+        public const string ERR_LOCK_CREDENTIAL = "Tài khoản của bạn đang bị khoá!";
+
         public static string EmailAccount = ConfigurationManager.AppSettings["EmailAccount"];
 
         public static string EmailPassword = ConfigurationManager.AppSettings["EmailPassword"];
