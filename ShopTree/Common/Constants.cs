@@ -101,5 +101,8 @@ namespace ShopTree.Common
         public const string ADMIN_LIST_BLOG_PATH = "admin/blog/danh-sach";
 
         public const string ADMIN_CREATE_BLOG_PATH = "admin/blog/tao-moi";
+
+        public const string ADMIN_LIST_ORDER_PATH = "admin/don-hang/danh-sach";
+
     }
 }

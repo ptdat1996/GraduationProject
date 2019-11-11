@@ -32,7 +32,7 @@ namespace ShopTree.Models
         public decimal Total { get; set; }
         public Nullable<int> OrderStatusId { get; set; }
         public string CancelReason { get; set; }
-        public System.DateTime DeliveryDate { get; set; }
+        public Nullable<DateTime> DeliveryDate { get; set; }
     
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }

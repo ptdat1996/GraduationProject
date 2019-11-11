@@ -3,6 +3,8 @@
 @model ShopTree.Models.Order
 @{ 
     ViewBag.Title = "Hoàn tất";
+    var db = new ShopTreeEntities();
+    var paymentMethodName = db.PaymentMethods.Find(Model.PaymentMethodId).Name;
 }
 <div class="main">
     <div class="container">
@@ -30,7 +32,7 @@
                     <div class="payment-order clearfix">
                         <h3>Mã đơn hàng của bạn: <b>@Model.OrderCode</b></h3>
                         <p><b>Ngày đặt: &nbsp;</b><i>@Model.OrderDate.ToLongDateString()</i></p>
-                        <p><b>Phương thức thanh toán: &nbsp;</b><i>@Model.PaymentMethod.Name</i></p>
+                        <p><b>Phương thức thanh toán: &nbsp;</b><i>@paymentMethodName</i></p>
                         <h1>Thông tin đơn hàng</h1>
                         <table class="table">
                             <thead>

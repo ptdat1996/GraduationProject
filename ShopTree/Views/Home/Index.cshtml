@@ -76,7 +76,6 @@
         </div>
     </div>
 </section>
-
 @* End Advertisement *@
 
 <div class="main">
@@ -207,7 +206,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        @{ Html.RenderAction("_BlogFooter", "Home");}
+                        @{ Html.RenderAction("_BlogFooter", "Home", new { area = "" });}
                     </div>
                 </section>
                 <!--EndBlog-->
