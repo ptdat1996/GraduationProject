@@ -24,22 +24,24 @@ namespace ShopTree.Models
         public string OrderCode { get; set; }
         public DateTime OrderDate { get; set; }
         public Nullable<int> CustomerId { get; set; }
-        public Nullable<int> ShipperId { get; set; }
+        public Nullable<int> DeliveryId { get; set; }
         public int Discount { get; set; }
         public int Tax { get; set; }
         public Nullable<int> PaymentMethodId { get; set; }
-        public Nullable<int> EmployeeId { get; set; }
+        public Nullable<int> ProcessingEmployeeId { get; set; }
+        public Nullable<int> ShipperEmployeeId { get; set; }
         public decimal Total { get; set; }
         public Nullable<int> OrderStatusId { get; set; }
         public string CancelReason { get; set; }
-        public Nullable<DateTime> DeliveryDate { get; set; }
+        public Nullable<System.DateTime> DeliveryDate { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual Delivery Delivery { get; set; }
         public virtual Employee Employee { get; set; }
+        public virtual Employee Employee1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual OrderStatus OrderStatus { get; set; }
         public virtual PaymentMethod PaymentMethod { get; set; }
-        public virtual Shipper Shipper { get; set; }
     }
 }

@@ -10,10 +10,10 @@ namespace ShopTree.Models
         public string CustomerName { get; set; }
         public string OrderCode { get; set; }
         public DateTime OrderDate { get; set; }
-        public string ShippingName { get; set; }
-        public string ShippingEmail { get; set; }
-        public string ShippingAddress { get; set; }
-        public string ShippingPhone { get; set; }
+        public string DeliveryName { get; set; }
+        public string DeliveryEmail { get; set; }
+        public string DeliveryAddress { get; set; }
+        public string DeliveryPhone { get; set; }
         public string CustomerEmail { get; set; }
         public string CustomerAddress { get; set; }
         public string CustomerPhone { get; set; }

@@ -1,5 +1,6 @@
 ﻿@using PagedList.Mvc
 @using System.Globalization
+@using ShopTree.Common
 @model PagedList.IPagedList<ShopTree.Models.Order>
 @{
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -26,6 +27,10 @@
                                         <th>STT</th>
                                         <th>Order code</th>
                                         <th>Ngày order</th>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <th>Nhân viên xử lý</th>
+                                        }
                                         <th>Trạng thái đơn hàng</th>
                                         <th>Ngày giao</th>
                                         <th>Tổng tiền</th>
@@ -39,7 +44,12 @@
                                         <tr>
                                             <td>@item.Id</td>
                                             <td>@item.OrderCode</td>
-                                            <td>@item.OrderDate.ToShortDateString()</td>
+                                            <td>@item.OrderDate.ToString("dd/MM/yyyy")</td>
+                                            @if (User.IsInRole("Admin"))
+                                            {
+                                                <td>@(item.ProcessingEmployeeId != null ? item.Employee.FullName : "Chưa xử lý")</td>
+                                            }
+
                                             <td>@item.OrderStatus.Status</td>
                                             <td>@(item.DeliveryDate != null ? item.DeliveryDate.ToString() : "-")</td>
                                             <td>@item.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
@@ -49,6 +59,17 @@
                                                     <i class="fa fa-check-square-o"></i>
                                                     Chi tiết đơn hàng
                                                 </a>
+                                                @if (User.IsInRole("Employee"))
+                                                {
+                                                    if (item.OrderStatusId == (int)Constants.ORDER_STATUS.WAITING)
+                                                    {
+                                                        <a class="custom-btn custom-btn-success" href="@Url.Action("Process", "Orders", new { area = "Admin", orderId = item.Id, page = Model.PageNumber })">
+                                                            <i class="fa fa-arrow-circle-o-right"></i>
+                                                            Xử lý
+                                                        </a>
+                                                    }
+                                                }
+
                                                 @if (User.IsInRole("Admin"))
                                                 {
                                                     <a class="custom-btn custom-btn-remove" data-toggle="modal" data-target="#confirm-delete" data-page-index="@Model.PageNumber" data-page="Product" data-id="@item.Id" data-prop-name="@item.OrderCode">
@@ -70,7 +91,7 @@
                                             <span>
                                                 @Html.PagedListPager(Model, page => Url.Action("AllOrder", "Orders", new { page, area = "Admin" }))
                                             </span>
-                                            
+
                                         </div>
                                     </div>
                                 </div>

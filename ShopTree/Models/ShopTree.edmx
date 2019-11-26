@@ -38,6 +38,16 @@
           <Property Name="Address" Type="nvarchar" MaxLength="250" />
           <Property Name="TotalMoney" Type="decimal" Precision="18" Scale="0" />
         </EntityType>
+        <EntityType Name="Deliveries">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="150" />
+          <Property Name="Phone" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="Employees">
           <Key>
             <PropertyRef Name="Id" />
@@ -87,11 +97,12 @@
           <Property Name="OrderCode" Type="varchar" MaxLength="50" />
           <Property Name="OrderDate" Type="date" />
           <Property Name="CustomerId" Type="int" />
-          <Property Name="ShipperId" Type="int" />
+          <Property Name="DeliveryId" Type="int" />
           <Property Name="Discount" Type="int" />
           <Property Name="Tax" Type="int" />
           <Property Name="PaymentMethodId" Type="int" />
-          <Property Name="EmployeeId" Type="int" />
+          <Property Name="ProcessingEmployeeId" Type="int" />
+          <Property Name="ShipperEmployeeId" Type="int" />
           <Property Name="Total" Type="decimal" Precision="18" Scale="0" />
           <Property Name="OrderStatusId" Type="int" />
           <Property Name="CancelReason" Type="nvarchar" MaxLength="100" />
@@ -127,15 +138,19 @@
           <Property Name="Status" Type="bit" />
           <Property Name="Avatar" Type="nvarchar" MaxLength="255" />
         </EntityType>
-        <EntityType Name="Shipper">
+        <EntityType Name="Properties">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="50" />
-          <Property Name="Email" Type="nvarchar" MaxLength="150" />
-          <Property Name="Phone" Type="varchar" MaxLength="50" />
-          <Property Name="Address" Type="nvarchar" MaxLength="150" />
+          <Property Name="ProductId" Type="int" />
+          <Property Name="IsLikeWater" Type="bit" />
+          <Property Name="IsLikeShadow" Type="bit" />
+          <Property Name="IsLikeSunny" Type="bit" />
+          <Property Name="IsLikeDry" Type="bit" />
+          <Property Name="RecommendSunnyHour" Type="int" />
+          <Property Name="RecommendWater" Type="int" />
+          <Property Name="RecommendFertilizer" Type="int" />
         </EntityType>
         <Association Name="FK_Blogs_Employees">
           <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
@@ -217,7 +232,19 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="EmployeeId" />
+              <PropertyRef Name="ProcessingEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Employees1">
+          <End Role="Employees" Type="Self.Employees" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ShipperEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -246,14 +273,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Orders_Shipping">
-          <End Role="Shipper" Type="Self.Shipper" Multiplicity="0..1" />
+          <End Role="Deliveries" Type="Self.Deliveries" Multiplicity="0..1" />
           <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Shipper">
+            <Principal Role="Deliveries">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="ShipperId" />
+              <PropertyRef Name="DeliveryId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -269,10 +296,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Properties_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Properties" Type="Self.Properties" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Properties">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ShopTreeModelStoreContainer">
           <EntitySet Name="Blogs" EntityType="Self.Blogs" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Deliveries" EntityType="Self.Deliveries" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employees" EntityType="Self.Employees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Images" EntityType="Self.Images" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Levels" EntityType="Self.Levels" Schema="dbo" store:Type="Tables" />
@@ -281,7 +321,7 @@
           <EntitySet Name="OrderStatuses" EntityType="Self.OrderStatuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethods" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Shipper" EntityType="Self.Shipper" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Properties" EntityType="Self.Properties" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Blogs_Employees" Association="Self.FK_Blogs_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Blogs" EntitySet="Blogs" />
@@ -310,6 +350,10 @@
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees1" Association="Self.FK_Orders_Employees1">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orders_OrderStatus" Association="Self.FK_Orders_OrderStatus">
             <End Role="OrderStatuses" EntitySet="OrderStatuses" />
             <End Role="Orders" EntitySet="Orders" />
@@ -319,12 +363,16 @@
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Shipping" Association="Self.FK_Orders_Shipping">
-            <End Role="Shipper" EntitySet="Shipper" />
+            <End Role="Deliveries" EntitySet="Deliveries" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
           <AssociationSet Name="FK_Products_Categories" Association="Self.FK_Products_Categories">
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Products" EntitySet="Products" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Properties_Products" Association="Self.FK_Properties_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Properties" EntitySet="Properties" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -368,6 +416,17 @@
           <Property Name="TotalMoney" Type="Decimal" Precision="18" Scale="0" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Customers" FromRole="Customers" ToRole="Orders" />
         </EntityType>
+        <EntityType Name="Delivery">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Shipping" FromRole="Deliveries" ToRole="Orders" />
+        </EntityType>
         <EntityType Name="Employee">
           <Key>
             <PropertyRef Name="Id" />
@@ -384,6 +443,7 @@
           <NavigationProperty Name="Blogs" Relationship="Self.FK_Blogs_Employees" FromRole="Employees" ToRole="Blogs" />
           <NavigationProperty Name="Level" Relationship="Self.FK_Employees_Levels" FromRole="Employees" ToRole="Levels" />
           <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Employees" FromRole="Employees" ToRole="Orders" />
+          <NavigationProperty Name="Orders1" Relationship="Self.FK_Orders_Employees1" FromRole="Employees" ToRole="Orders" />
         </EntityType>
         <EntityType Name="Image">
           <Key>
@@ -424,21 +484,23 @@
           <Property Name="OrderCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="OrderDate" Type="DateTime" Precision="0" />
           <Property Name="CustomerId" Type="Int32" />
-          <Property Name="ShipperId" Type="Int32" />
+          <Property Name="DeliveryId" Type="Int32" />
           <Property Name="Discount" Type="Int32" />
           <Property Name="Tax" Type="Int32" />
           <Property Name="PaymentMethodId" Type="Int32" />
-          <Property Name="EmployeeId" Type="Int32" />
+          <Property Name="ProcessingEmployeeId" Type="Int32" />
+          <Property Name="ShipperEmployeeId" Type="Int32" />
           <Property Name="Total" Type="Decimal" Precision="18" Scale="0" />
           <Property Name="OrderStatusId" Type="Int32" />
           <Property Name="CancelReason" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="DeliveryDate" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Customer" Relationship="Self.FK_Orders_Customers" FromRole="Orders" ToRole="Customers" />
+          <NavigationProperty Name="Delivery" Relationship="Self.FK_Orders_Shipping" FromRole="Orders" ToRole="Deliveries" />
           <NavigationProperty Name="Employee" Relationship="Self.FK_Orders_Employees" FromRole="Orders" ToRole="Employees" />
+          <NavigationProperty Name="Employee1" Relationship="Self.FK_Orders_Employees1" FromRole="Orders" ToRole="Employees" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Orders" FromRole="Orders" ToRole="OrderDetails" />
           <NavigationProperty Name="OrderStatus" Relationship="Self.FK_Orders_OrderStatus" FromRole="Orders" ToRole="OrderStatuses" />
           <NavigationProperty Name="PaymentMethod" Relationship="Self.FK_Orders_PaymentMethods" FromRole="Orders" ToRole="PaymentMethods" />
-          <NavigationProperty Name="Shipper" Relationship="Self.FK_Orders_Shipping" FromRole="Orders" ToRole="Shipper" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -474,17 +536,22 @@
           <NavigationProperty Name="Category" Relationship="Self.FK_Products_Categories" FromRole="Products" ToRole="Categories" />
           <NavigationProperty Name="Images" Relationship="Self.FK_Images_Products" FromRole="Products" ToRole="Images" />
           <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Products" FromRole="Products" ToRole="OrderDetails" />
+          <NavigationProperty Name="Properties" Relationship="Self.FK_Properties_Products" FromRole="Products" ToRole="Properties" />
         </EntityType>
-        <EntityType Name="Shipper">
+        <EntityType Name="Property">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Shipping" FromRole="Shipper" ToRole="Orders" />
+          <Property Name="ProductId" Type="Int32" />
+          <Property Name="IsLikeWater" Type="Boolean" />
+          <Property Name="IsLikeShadow" Type="Boolean" />
+          <Property Name="IsLikeSunny" Type="Boolean" />
+          <Property Name="IsLikeDry" Type="Boolean" />
+          <Property Name="RecommendSunnyHour" Type="Int32" />
+          <Property Name="RecommendWater" Type="Int32" />
+          <Property Name="RecommendFertilizer" Type="Int32" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_Properties_Products" FromRole="Properties" ToRole="Products" />
         </EntityType>
         <Association Name="FK_Blogs_Employees">
           <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
@@ -522,6 +589,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_Shipping">
+          <End Role="Deliveries" Type="Self.Delivery" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Deliveries">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="DeliveryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Employees_Levels">
           <End Role="Levels" Type="Self.Level" Multiplicity="0..1" />
           <End Role="Employees" Type="Self.Employee" Multiplicity="*" />
@@ -542,7 +621,19 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Orders">
-              <PropertyRef Name="EmployeeId" />
+              <PropertyRef Name="ProcessingEmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Employees1">
+          <End Role="Employees" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="ShipperEmployeeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -606,15 +697,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Orders_Shipping">
-          <End Role="Shipper" Type="Self.Shipper" Multiplicity="0..1" />
-          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+        <Association Name="FK_Properties_Products">
+          <End Role="Products" Type="Self.Product" Multiplicity="0..1" />
+          <End Role="Properties" Type="Self.Property" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Shipper">
+            <Principal Role="Products">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="Orders">
-              <PropertyRef Name="ShipperId" />
+            <Dependent Role="Properties">
+              <PropertyRef Name="ProductId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -622,6 +713,7 @@
           <EntitySet Name="Blogs" EntityType="Self.Blog" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Deliveries" EntityType="Self.Delivery" />
           <EntitySet Name="Employees" EntityType="Self.Employee" />
           <EntitySet Name="Images" EntityType="Self.Image" />
           <EntitySet Name="Levels" EntityType="Self.Level" />
@@ -630,7 +722,7 @@
           <EntitySet Name="OrderStatuses" EntityType="Self.OrderStatus" />
           <EntitySet Name="PaymentMethods" EntityType="Self.PaymentMethod" />
           <EntitySet Name="Products" EntityType="Self.Product" />
-          <EntitySet Name="Shippers" EntityType="Self.Shipper" />
+          <EntitySet Name="Properties" EntityType="Self.Property" />
           <AssociationSet Name="FK_Blogs_Employees" Association="Self.FK_Blogs_Employees">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Blogs" EntitySet="Blogs" />
@@ -643,11 +735,19 @@
             <End Role="Customers" EntitySet="Customers" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Shipping" Association="Self.FK_Orders_Shipping">
+            <End Role="Deliveries" EntitySet="Deliveries" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Employees_Levels" Association="Self.FK_Employees_Levels">
             <End Role="Levels" EntitySet="Levels" />
             <End Role="Employees" EntitySet="Employees" />
           </AssociationSet>
           <AssociationSet Name="FK_Orders_Employees" Association="Self.FK_Orders_Employees">
+            <End Role="Employees" EntitySet="Employees" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Employees1" Association="Self.FK_Orders_Employees1">
             <End Role="Employees" EntitySet="Employees" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
@@ -671,9 +771,9 @@
             <End Role="PaymentMethods" EntitySet="PaymentMethods" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
-          <AssociationSet Name="FK_Orders_Shipping" Association="Self.FK_Orders_Shipping">
-            <End Role="Shipper" EntitySet="Shippers" />
-            <End Role="Orders" EntitySet="Orders" />
+          <AssociationSet Name="FK_Properties_Products" Association="Self.FK_Properties_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Properties" EntitySet="Properties" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -715,6 +815,17 @@
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Address" ColumnName="Address" />
                 <ScalarProperty Name="TotalMoney" ColumnName="TotalMoney" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Deliveries">
+            <EntityTypeMapping TypeName="ShopTreeModel.Delivery">
+              <MappingFragment StoreEntitySet="Deliveries">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -770,11 +881,12 @@
                 <ScalarProperty Name="OrderCode" ColumnName="OrderCode" />
                 <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
-                <ScalarProperty Name="ShipperId" ColumnName="ShipperId" />
+                <ScalarProperty Name="DeliveryId" ColumnName="DeliveryId" />
                 <ScalarProperty Name="Discount" ColumnName="Discount" />
                 <ScalarProperty Name="Tax" ColumnName="Tax" />
                 <ScalarProperty Name="PaymentMethodId" ColumnName="PaymentMethodId" />
-                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ProcessingEmployeeId" ColumnName="ProcessingEmployeeId" />
+                <ScalarProperty Name="ShipperEmployeeId" ColumnName="ShipperEmployeeId" />
                 <ScalarProperty Name="Total" ColumnName="Total" />
                 <ScalarProperty Name="OrderStatusId" ColumnName="OrderStatusId" />
                 <ScalarProperty Name="CancelReason" ColumnName="CancelReason" />
@@ -815,14 +927,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Shippers">
-            <EntityTypeMapping TypeName="ShopTreeModel.Shipper">
-              <MappingFragment StoreEntitySet="Shipper">
+          <EntitySetMapping Name="Properties">
+            <EntityTypeMapping TypeName="ShopTreeModel.Property">
+              <MappingFragment StoreEntitySet="Properties">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Phone" ColumnName="Phone" />
-                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="IsLikeWater" ColumnName="IsLikeWater" />
+                <ScalarProperty Name="IsLikeShadow" ColumnName="IsLikeShadow" />
+                <ScalarProperty Name="IsLikeSunny" ColumnName="IsLikeSunny" />
+                <ScalarProperty Name="IsLikeDry" ColumnName="IsLikeDry" />
+                <ScalarProperty Name="RecommendSunnyHour" ColumnName="RecommendSunnyHour" />
+                <ScalarProperty Name="RecommendWater" ColumnName="RecommendWater" />
+                <ScalarProperty Name="RecommendFertilizer" ColumnName="RecommendFertilizer" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,194 @@
+﻿@model ShopTree.Models.Order
+@using ShopTree.Models
+@using System.Globalization
+@using ShopTree.Common
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    var listOrderDetail = (List<OrderDetail>)ViewBag.ListOrderDetail;
+    decimal total = 0;
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Xử lý đơn hàng</strong>
+                        </div>
+
+                        @using (Html.BeginForm("Process", "Orders", new { area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                        {
+                            <input type="hidden" name="OrderId" value="@Model.Id" />
+                            <input type="hidden" name="page" value="@ViewBag.Page" />
+                            <div class="card-body">
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Mã đơn hàng :</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.OrderCode" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Ngày đặt hàng :</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.OrderDate.ToString("dd/MM/yyyy")" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Danh sách nhân viên giao hàng :</label>
+                                        <div class="col-md-9">
+                                            @if (Model.OrderStatusId != (int)Constants.ORDER_STATUS.WAITING)
+                                            {
+                                                <input type="text" class="form-control" readonly="readonly" value="@Model.Employee1.FullName" />
+                                            }
+                                            else
+                                            {
+                                                <select name="ShipperEmployeeId" class="form-control">
+                                                    @foreach (var item in (List<Employee>)ViewBag.ListShipper)
+                                                    {
+                                                        <option value="@item.Id">@item.FullName</option>
+                                                    }
+                                                </select>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Phương thức thanh toán:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.PaymentMethod.Name" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Trạng thái đơn hàng:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.OrderStatus.Status" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Ngày giao hàng :</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@(Model.DeliveryDate != null ? Model.DeliveryDate.Value.ToString("dd/MM/yyyy"): "-")" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Ghi chú :</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.CancelReason" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Chi tiết đơn hàng :</label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <table class="table custom-table">
+                                        <thead>
+                                            <tr class="info">
+                                                <td>STT</td>
+                                                <td>Tên sản phẩm</td>
+                                                <td>Đơn giá</td>
+                                                <td>Số lượng</td>
+                                                <td>Thành tiền</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in listOrderDetail)
+                                            {
+                                                total += (decimal)(item.Price * item.Quantity);
+                                                <tr>
+                                                    <td>@(listOrderDetail.IndexOf(item) + 1)</td>
+                                                    <td>@item.Product.Name</td>
+                                                    <td>@item.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@((item.Price * item.Quantity).ToString("C", CultureInfo.GetCultureInfo("vi-VN")))</td>
+                                                </tr>
+
+                                            }
+                                            <tr>
+                                                <td rowspan="2" colspan="3">
+                                                    @if (Model.Delivery != null)
+                                                    {
+                                                        <div class="box-customer-content">
+                                                            <div class="title docs"><span>Người nhận hàng :</span></div>
+                                                            <div>[Anh/Chị] : <b>@Model.Delivery.Name</b></div>
+                                                            <div>
+                                                                <span>Email : @Model.Delivery.Email</span><br />
+                                                                <span>Địa chỉ :@Model.Delivery.Address</span><br />
+                                                                <span>SĐT : @Model.Delivery.Phone</span>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="box-customer-content">
+                                                            <div class="title docs"><span>Người nhận hàng :</span></div>
+                                                            <div>[Anh/Chị] : <b>@Model.Customer.Name</b></div>
+                                                            <div>
+                                                                <span>Email : @Model.Customer.Email</span><br />
+                                                                <span>Địa chỉ : @Model.Customer.Address</span><br />
+                                                                <span>SĐT : @Model.Customer.Phone</span>
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                    <div class="box-customer-content">
+                                                        <div class="title docs"><span>Người thanh toán :</span></div>
+                                                        <div>[Anh/Chị] : <b>@Model.Customer.Name</b></div>
+                                                        <div>
+                                                            <span>Email : @Model.Customer.Email</span><br />
+                                                            <span>Địa chỉ : @Model.Customer.Address</span><br />
+                                                            <span>SĐT : @Model.Customer.Phone</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td rowspan="1">Tổng tiền :</td>
+                                                <td rowspan="1">
+                                                    <div class="row-total">
+                                                        <b>@total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllOrder", "Orders", new { area = "Admin", page = ViewBag.Page })">
+                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                </a>
+                                @if (Model.OrderStatusId == (int)Constants.ORDER_STATUS.WAITING)
+                                {
+                                    <button class="custom-btn custom-btn-info" type="submit">
+                                        <i class="fa fa-edit"></i> Lưu lại
+                                    </button>
+                                }
+                                <div class="loading-container">
+                                    <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                    Loading....
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

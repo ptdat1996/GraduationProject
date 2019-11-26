@@ -12,10 +12,10 @@ namespace ShopTree.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Shipper
+    public partial class Delivery
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Shipper()
+        public Delivery()
         {
             this.Orders = new HashSet<Order>();
         }

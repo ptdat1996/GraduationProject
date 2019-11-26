@@ -19,6 +19,7 @@ namespace ShopTree.Models
         {
             this.Images = new HashSet<Image>();
             this.OrderDetails = new HashSet<OrderDetail>();
+            this.Properties = new HashSet<Property>();
         }
     
         public int Id { get; set; }
@@ -32,11 +33,13 @@ namespace ShopTree.Models
         public int Discount { get; set; }
         public bool Status { get; set; }
         public string Avatar { get; set; }
-    
+
         public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Image> Images { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Property> Properties { get; set; }
     }
 }

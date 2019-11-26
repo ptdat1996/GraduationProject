@@ -68,15 +68,15 @@
                                     }
                                     <tr>
                                         <td class="border-right" colspan="3">
-                                            @if (Model.ShippingName != null)
+                                            @if (Model.DeliveryName != null)
                                             {
                                                 <div class="box-customer-content">
                                                     <div class="title docs"><span>Thông tin giao hàng</span></div>
-                                                    <div>[Anh/Chị] :<b>@Model.ShippingName</b></div>
+                                                    <div>[Anh/Chị] :<b>@Model.DeliveryName</b></div>
                                                     <div>
-                                                        <span>@Model.ShippingEmail</span> |<br />
-                                                        <span>@Model.ShippingAddress</span> | <br />
-                                                        <span>@Model.ShippingPhone</span>
+                                                        <span>@Model.DeliveryEmail</span> |<br />
+                                                        <span>@Model.DeliveryAddress</span> | <br />
+                                                        <span>@Model.DeliveryPhone</span>
                                                     </div>
                                                 </div>
                                             }

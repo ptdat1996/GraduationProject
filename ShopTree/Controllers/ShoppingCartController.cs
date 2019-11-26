@@ -52,16 +52,16 @@ namespace ShopTree.Controllers
 
                 if (!string.IsNullOrEmpty(orderViewModel.DeliveryEmail))
                 {
-                    Shipper shipping = new Shipper()
+                    Delivery delivery = new Delivery()
                     {
                         Name = orderViewModel.DeliveryName,
                         Email = orderViewModel.DeliveryEmail,
                         Phone = orderViewModel.DeliveryPhone,
                         Address = orderViewModel.DeliveryAdress
                     };
-                    db.Shippers.Add(shipping);
+                    db.Deliveries.Add(delivery);
                     db.SaveChanges();
-                    order.ShipperId = shipping.Id;
+                    order.DeliveryId = delivery.Id;
                 }
 
                 List<CartItem> shoppingCart = JsonConvert.DeserializeObject<List<CartItem>>(orderViewModel.CartData);
@@ -99,8 +99,7 @@ namespace ShopTree.Controllers
                 else
                 {
                     //login
-                    int id = Convert.ToInt32(Session["CustomerId"].ToString());
-                    customer = db.Customers.Find(id);
+                    customer = db.Customers.Find(Convert.ToInt32(Session["CustomerId"].ToString()));
                     order.CustomerId = customer.Id;
                 }
 
@@ -149,7 +148,7 @@ namespace ShopTree.Controllers
                     Total = orderDB.Total,
                     ListOrderDetail = list
                 };
-                if (orderDB.Shipper == null)
+                if (orderDB.Delivery == null)
                 {
                     //no shipping
                     return View(orderInfomation);
@@ -157,10 +156,10 @@ namespace ShopTree.Controllers
                 else
                 {
                     //have shiping
-                    orderInfomation.ShippingName = orderDB.Shipper.Name;
-                    orderInfomation.ShippingEmail = orderDB.Shipper.Email;
-                    orderInfomation.ShippingPhone = orderDB.Shipper.Phone;
-                    orderInfomation.ShippingAddress = orderDB.Shipper.Address;
+                    orderInfomation.DeliveryName = orderDB.Delivery.Name;
+                    orderInfomation.DeliveryEmail = orderDB.Delivery.Email;
+                    orderInfomation.DeliveryPhone = orderDB.Delivery.Phone;
+                    orderInfomation.DeliveryAddress = orderDB.Delivery.Address;
                     return View(orderInfomation);
                 }
             }
@@ -210,12 +209,12 @@ namespace ShopTree.Controllers
                 Total = orderDB.Total,
                 ListOrderDetail = list
             };
-            if (orderDB.Shipper != null)
+            if (orderDB.Delivery != null)
             {
-                orderInfomation.ShippingName = orderDB.Shipper.Name;
-                orderInfomation.ShippingEmail = orderDB.Shipper.Email;
-                orderInfomation.ShippingPhone = orderDB.Shipper.Phone;
-                orderInfomation.ShippingAddress = orderDB.Shipper.Address;
+                orderInfomation.DeliveryName = orderDB.Delivery.Name;
+                orderInfomation.DeliveryEmail = orderDB.Delivery.Email;
+                orderInfomation.DeliveryPhone = orderDB.Delivery.Phone;
+                orderInfomation.DeliveryAddress = orderDB.Delivery.Address;
                 return View(orderInfomation);
             }
             return View(orderInfomation);

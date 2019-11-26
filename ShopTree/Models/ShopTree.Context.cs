@@ -28,6 +28,7 @@ namespace ShopTree.Models
         public virtual DbSet<Blog> Blogs { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Delivery> Deliveries { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Image> Images { get; set; }
         public virtual DbSet<Level> Levels { get; set; }
@@ -36,6 +37,6 @@ namespace ShopTree.Models
         public virtual DbSet<OrderStatus> OrderStatuses { get; set; }
         public virtual DbSet<PaymentMethod> PaymentMethods { get; set; }
         public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Shipper> Shippers { get; set; }
+        public virtual DbSet<Property> Properties { get; set; }
     }
 }

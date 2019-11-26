@@ -212,6 +212,9 @@
       <DependentUpon>ShopTree.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\Delivery.cs">
+      <DependentUpon>ShopTree.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Employee.cs">
       <DependentUpon>ShopTree.tt</DependentUpon>
     </Compile>
@@ -240,7 +243,7 @@
       <DependentUpon>ShopTree.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ProductViewModel.cs" />
-    <Compile Include="Models\Shipper.cs">
+    <Compile Include="Models\Property.cs">
       <DependentUpon>ShopTree.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ShopTree.Context.cs">
@@ -299,6 +302,12 @@
     <Content Include="Areas\Admin\Views\Blogs\AllBlog.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_ModalConfirmDelete.cshtml" />
     <Content Include="Areas\Admin\Views\Blogs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Employees\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Orders\AllOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Navigation.cshtml" />
     <EntityDeploy Include="Models\ShopTree.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ShopTree.Designer.cs</LastGenOutput>
@@ -306,12 +315,8 @@
     <Content Include="Models\ShopTree.edmx.diagram">
       <DependentUpon>ShopTree.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Employees\Login.cshtml" />
-    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\web.config" />
-    <Content Include="Areas\Admin\Views\Orders\AllOrder.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Process.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Delivering.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

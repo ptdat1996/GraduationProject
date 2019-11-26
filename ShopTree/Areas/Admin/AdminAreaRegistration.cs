@@ -129,6 +129,20 @@ namespace ShopTree.Areas.Admin
            );
 
             context.MapRoute(
+              "Admin Process Order",
+              Constants.ADMIN_PROCESS_ORDER_PATH,
+              new { controller = "Orders", action = "Process", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
+              "Admin Delivering Order",
+              Constants.ADMIN_DELIVERING_ORDER_PATH,
+              new { controller = "Orders", action = "Delivering", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional },

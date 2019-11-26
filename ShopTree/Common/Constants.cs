@@ -17,7 +17,15 @@ namespace ShopTree.Common
             HOT = 4,
             VERY_HOT = 5
         };
-        
+
+        public enum ORDER_STATUS
+        {
+            WAITING = 1,
+            DELIVERING = 2,
+            DELIVERED = 3,
+            CANCEL = 4
+        };
+
         public const int MIN_LENGTH_PASSWORD = 6;
 
         public const string ERR_REQUIRED_NAME = "Tên không được để trống";
@@ -104,5 +112,8 @@ namespace ShopTree.Common
 
         public const string ADMIN_LIST_ORDER_PATH = "admin/don-hang/danh-sach";
 
+        public const string ADMIN_PROCESS_ORDER_PATH = "admin/don-hang/xu-ly-don-hang";
+
+        public const string ADMIN_DELIVERING_ORDER_PATH = "admin/don-hang/don-hang-dang-giao";
     }
 }

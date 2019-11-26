@@ -56,20 +56,34 @@
                 </ul>
             </li>
 
-            <li class="nav-item nav-dropdown">
-                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i>Quản lý nhân viên</a>
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("AllEmployee", "Employees", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
-                    </li>
-                </ul>
-            </li>
+            if (User.IsInRole(Constants.ROLE_ADMIN))
+            {
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-people"></i>Quản lý nhân viên</a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("AllEmployee", "Employees", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                        </li>
+                    </ul>
+                </li>
+            }
 
             <li class="nav-item nav-dropdown">
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-docs"></i>Quản lý blog</a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a class="nav-link" href="@Url.Action("AllBlog", "Blogs", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                    </li>
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Đơn hàng cần giao</a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Delivering", "Orders", new { area = "Admin" })"><i class="icon-list"></i> Danh sách đơn hàng</a>
                     </li>
                 </ul>
             </li>
