@@ -114,6 +114,14 @@ namespace ShopTree.Common
 
         public const string ADMIN_PROCESS_ORDER_PATH = "admin/don-hang/xu-ly-don-hang";
 
-        public const string ADMIN_DELIVERING_ORDER_PATH = "admin/don-hang/don-hang-dang-giao";
+        public const string ADMIN_DELIVERING_ORDER_PATH = "admin/don-hang/don-hang-can-giao";
+
+        public const string ADMIN_PROCESS_DELIVERY_ORDER_PATH = "admin/don-hang/giao-hang";
+
+        public const string ADMIN_ORDER_DETAIL_PATH = "admin/don-hang/chi-tiet";
+
+        public const string ADMIN_PROCESSED_ORDER_PATH = "admin/don-hang/da-xu-ly";
+
+        public const string ADMIN_OUTSTANDING_ORDER_PATH = "admin/don-hang/chua-xu-ly";
     }
 }

@@ -14040,6 +14040,15 @@ hr.transparent {
     .box-customer-content .title span {
         border-bottom: 1px solid #44b4eb;
     }
+.inline-radio{
+    padding : 0.5rem 0.875rem;
+}
+.m-r-20{
+    margin-right : 20px;
+}
+.hidden {
+    display : none;
+}
 @keyframes greeting-text-animation {
     0% {
         letter-spacing: 5px;

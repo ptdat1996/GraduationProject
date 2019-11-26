@@ -315,8 +315,12 @@
     <Content Include="Models\ShopTree.edmx.diagram">
       <DependentUpon>ShopTree.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Orders\Process.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ProcessOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ListOrderDelivering.cshtml" />
     <Content Include="Areas\Admin\Views\Orders\Delivering.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ListProcessedOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ListOutstandingOrder.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

@@ -42,7 +42,19 @@
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Quản lý đơn hàng</a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("AllOrder", "Orders", new { area = "Admin" })"><i class="icon-list"></i> Danh sách</a>
+                        <a class="nav-link" href="@Url.Action("AllOrder", "Orders", new { area = "Admin" })">
+                            <i class="icon-list"></i> Tất cả đơn hàng
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListOutstandingOrder", "Orders", new { area = "Admin" })">
+                            <i class="icon-list"></i> Đơn hàng chưa xử lý
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("ListProcessedOrder", "Orders", new { area = "Admin" })">
+                            <i class="icon-list"></i> Đơn hàng đã xử lý
+                        </a>
                     </li>
                 </ul>
             </li>
@@ -83,7 +95,7 @@
                 <a class="nav-link nav-dropdown-toggle" href="#"><i class="icon-book-open"></i>Đơn hàng cần giao</a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a class="nav-link" href="@Url.Action("Delivering", "Orders", new { area = "Admin" })"><i class="icon-list"></i> Danh sách đơn hàng</a>
+                        <a class="nav-link" href="@Url.Action("ListOrderDelivering", "Orders", new { area = "Admin" })"><i class="icon-list"></i> Danh sách đơn hàng</a>
                     </li>
                 </ul>
             </li>

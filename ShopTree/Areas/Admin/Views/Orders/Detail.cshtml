@@ -18,10 +18,8 @@
                             <strong>Xử lý đơn hàng</strong>
                         </div>
 
-                        @using (Html.BeginForm("Delivering", "Orders", new { area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                        @using (Html.BeginForm("ProcessOrder", "Orders", new { area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal" }))
                         {
-                            <input type="hidden" name="OrderId" value="@Model.Id" />
-                            <input type="hidden" name="page" value="@ViewBag.Page" />
                             <div class="card-body">
 
                                 <div class="form-group row">
@@ -43,19 +41,7 @@
                                     <div class="col-md-6 row">
                                         <label class="col-md-3 col-form-label">Nhân viên giao hàng :</label>
                                         <div class="col-md-9">
-                                            @if (Model.OrderStatusId != (int)Constants.ORDER_STATUS.WAITING)
-                                            {
-                                                <input type="text" class="form-control" readonly="readonly" value="@Model.Employee1.FullName" />
-                                            }
-                                            else
-                                            {
-                                                <select name="ShipperEmployeeId" class="form-control">
-                                                    @foreach (var item in (List<Employee>)ViewBag.ListShipper)
-                                                    {
-                                                        <option value="@item.Id">@item.FullName</option>
-                                                    }
-                                                </select>
-                                            }
+                                            <input type="text" class="form-control" readonly="readonly" value="@(Model.Employee1 != null ? Model.Employee1.FullName : "-")" />                                         
                                         </div>
                                     </div>
                                     <div class="col-md-6 row">
@@ -69,28 +55,23 @@
                                 <div class="form-group row">
                                     <div class="col-md-6 row">
                                         <label class="col-md-3 col-form-label">Trạng thái đơn hàng:</label>
-                                        <div class="col-md-9 inline-radio">
-                                            <label class="radio-inline m-r-20" for="deliveredOrder">
-                                                <input type="radio" id="deliveredOrder" name="OrderStatusId" value="3" checked="checked"> Đã giao
-                                            </label>
-                                            <label class="radio-inline m-r-20" for="cancelOrder">
-                                                <input type="radio" id="cancelOrder" name="OrderStatusId" value="4"> Huỷ đơn hàng
-                                            </label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.OrderStatus.Status" />
                                         </div>
                                     </div>
                                     <div class="col-md-6 row">
                                         <label class="col-md-3 col-form-label">Ngày giao hàng :</label>
                                         <div class="col-md-9">
-                                            <input type="text" class="form-control" readonly="readonly" value="@DateTime.Now.ToString("dd/MM/yyyy")" />
+                                            <input type="text" class="form-control" readonly="readonly" value="@(Model.DeliveryDate != null ? Model.DeliveryDate.Value.ToString("dd/MM/yyyy"): "-")" />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="form-group row hidden" id="frmCancelReason">
+                                <div class="form-group row">
                                     <div class="col-md-6 row">
                                         <label class="col-md-3 col-form-label">Ghi chú :</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="CancelReason" id="CancelReason" class="form-control" />
+                                            <input type="text" class="form-control" readonly="readonly" value="@Model.CancelReason" />
                                         </div>
                                     </div>
                                 </div>
@@ -173,17 +154,9 @@
 
                             </div>
                             <div class="card-footer">
-                                <a class="custom-btn custom-btn-dark" href="@Url.Action("Delivering", "Orders", new { area = "Admin", page = ViewBag.Page })">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllOrder", "Orders", new { area = "Admin", page = ViewBag.Page })">
                                     <i class="fa fa-arrow-left"></i> Quay lại danh sách
-                                </a>
-                                <button class="custom-btn custom-btn-success" type="submit">
-                                    <i class="fa fa-check-circle-o"></i> Xác nhận
-                                </button>
-
-                                <div class="loading-container">
-                                    <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
-                                    Loading....
-                                </div>
+                                </a>                 
                             </div>
                         }
                     </div>
@@ -192,20 +165,4 @@
         </div>
     </div>
 </main>
-
-<script>
-    $(document).ready(function () {
-        $("input[type='radio']").change(function () {
-            var value = $("input[type='radio']:checked").val();
-            if (value === "4") {
-                $("#frmCancelReason").fadeIn().removeClass("hidden");
-                $("#CancelReason").attr("required", "required");
-            }
-            else {
-                $("#frmCancelReason").fadeOut().addClass("hidden");
-                $("#CancelReason").removeAttr("required");
-            }
-        });       
-    });
-</script>
 

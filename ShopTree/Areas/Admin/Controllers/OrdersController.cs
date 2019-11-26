@@ -20,14 +20,34 @@ namespace ShopTree.Areas.Admin.Controllers
         public ActionResult AllOrder(int? page)
         {
             ViewBag.Title = "Danh sách đơn hàng";
-            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            pageIndex = page ?? 1;
             var list = db.Orders.ToList();
             IPagedList<Order> pagingOrder = list.ToPagedList(pageIndex, pageSize);
             return View(pagingOrder);
         }
 
+        [Authorize(Roles = "Admin,Employee")]
+        public ActionResult ListProcessedOrder(int? page)
+        {
+            ViewBag.Title = "Đơn hàng đã xử lý";
+            pageIndex = page ?? 1;
+            var list = db.Orders.Where(o=>o.OrderStatusId != (int)Constants.ORDER_STATUS.WAITING).ToList();
+            IPagedList<Order> pagingOrder = list.ToPagedList(pageIndex, pageSize);
+            return View(pagingOrder);
+        }
+
+        [Authorize(Roles = "Admin,Employee")]
+        public ActionResult ListOutstandingOrder(int? page)
+        {
+            ViewBag.Title = "Đơn hàng chưa xử lý";
+            pageIndex = page ?? 1;
+            var list = db.Orders.Where(o => o.OrderStatusId == (int)Constants.ORDER_STATUS.WAITING).ToList();
+            IPagedList<Order> pagingOrder = list.ToPagedList(pageIndex, pageSize);
+            return View(pagingOrder);
+        }
+
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
-        public ActionResult Process(int orderId, int? page)
+        public ActionResult ProcessOrder(int orderId, int? page)
         {
             var order = db.Orders.Find(orderId);
             if (order == null)
@@ -43,7 +63,7 @@ namespace ShopTree.Areas.Admin.Controllers
 
         [Authorize(Roles = Constants.ROLE_EMPLOYEE)]
         [HttpPost]
-        public ActionResult Process(int orderId, int shipperEmployeeId, int? page)
+        public ActionResult ProcessOrder(int orderId, int shipperEmployeeId, int? page)
         {
             ViewBag.Title = "Xử lý đơn hàng";
             var orderModel = db.Orders.Find(orderId);
@@ -56,15 +76,71 @@ namespace ShopTree.Areas.Admin.Controllers
         }
 
         [Authorize(Roles = Constants.ROLE_SHIPPER)]
-        public ActionResult Delivering(int? page)
+        public ActionResult ListOrderDelivering(int? page)
         {
             ViewBag.Title = "Đơn hàng cần giao";
-            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            pageIndex = page ?? 1;
             var list = db.Orders
                         .Where(o => o.OrderStatusId == (int)Constants.ORDER_STATUS.DELIVERING && o.Employee1.UserName.Equals(User.Identity.Name))
                         .ToList();
             IPagedList<Order> pagingOrder = list.ToPagedList(pageIndex, pageSize);
             return View(pagingOrder);
+        }
+
+        [Authorize(Roles = Constants.ROLE_SHIPPER)]
+        public ActionResult Delivering(int orderId, int? page)
+        {
+            var order = db.Orders
+                        .Where(o => o.Id == orderId && o.OrderStatusId == (int)Constants.ORDER_STATUS.DELIVERING)
+                        .SingleOrDefault();
+            if (order == null)
+            {
+                return RedirectToAction("Delivering", "Orders", new { area = "Admin", page });
+            }
+            ViewBag.Title = "Mã đơn hàng - " + order.OrderCode;
+            ViewBag.ListOrderDetail = db.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+            pageIndex = page ?? 1;
+            return View(order);
+        }
+
+        [Authorize(Roles = Constants.ROLE_SHIPPER)]
+        [HttpPost]
+        public ActionResult Delivering(int orderId, int orderStatusId, int? page, string cancelReason = null)
+        {
+            var order = db.Orders.Find(orderId);
+            order.OrderStatusId = orderStatusId;
+            if (orderStatusId != (int)Constants.ORDER_STATUS.CANCEL)
+            {
+                var listOrderDetail = db.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+                foreach (var item in listOrderDetail)
+                {
+                    var product = db.Products.Find(item.ProductId);
+                    product.StockQuantity -= item.Quantity;
+                    db.SaveChanges();
+                }
+            }
+            order.DeliveryDate = DateTime.Now;
+            if (!string.IsNullOrEmpty(cancelReason))
+            {
+                order.CancelReason = cancelReason;
+            }
+            db.SaveChanges();
+            return RedirectToAction("ListOrderDelivering", "Orders", new { area = "Admin", page });
+        }
+
+        [Authorize(Roles = "Admin,Employee")]
+        public ActionResult Detail(int orderId, string action, int? page)
+        {
+            var order = db.Orders.Find(orderId);
+            if (order == null)
+            {
+                return RedirectToAction(action, "Orders", new { area = "Admin", page });
+            }
+            ViewBag.Title = "Chi tiết đơn hàng";
+            ViewBag.Page = page ?? 1;
+            ViewBag.ListOrderDetail = db.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+            ViewBag.Action = action;
+            return View(order);
         }
     }
 }

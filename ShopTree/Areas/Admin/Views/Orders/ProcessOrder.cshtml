@@ -6,7 +6,6 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 
     var listOrderDetail = (List<OrderDetail>)ViewBag.ListOrderDetail;
-    decimal total = 0;
 }
 
 <main class="main">
@@ -19,7 +18,7 @@
                             <strong>Xử lý đơn hàng</strong>
                         </div>
 
-                        @using (Html.BeginForm("Process", "Orders", new { area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal" }))
+                        @using (Html.BeginForm("ProcessOrder", "Orders", new { area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal" }))
                         {
                             <input type="hidden" name="OrderId" value="@Model.Id" />
                             <input type="hidden" name="page" value="@ViewBag.Page" />
@@ -84,15 +83,6 @@
 
                                 <div class="form-group row">
                                     <div class="col-md-6 row">
-                                        <label class="col-md-3 col-form-label">Ghi chú :</label>
-                                        <div class="col-md-9">
-                                            <input type="text" class="form-control" readonly="readonly" value="@Model.CancelReason" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-md-6 row">
                                         <label class="col-md-3 col-form-label">Chi tiết đơn hàng :</label>
                                     </div>
                                 </div>
@@ -111,7 +101,6 @@
                                         <tbody>
                                             @foreach (var item in listOrderDetail)
                                             {
-                                                total += (decimal)(item.Price * item.Quantity);
                                                 <tr>
                                                     <td>@(listOrderDetail.IndexOf(item) + 1)</td>
                                                     <td>@item.Product.Name</td>
@@ -160,7 +149,7 @@
                                                 <td rowspan="1">Tổng tiền :</td>
                                                 <td rowspan="1">
                                                     <div class="row-total">
-                                                        <b>@total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b>
+                                                        <b>@Model.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</b>
                                                     </div>
                                                 </td>
                                             </tr>

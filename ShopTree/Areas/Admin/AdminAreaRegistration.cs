@@ -131,14 +131,42 @@ namespace ShopTree.Areas.Admin
             context.MapRoute(
               "Admin Process Order",
               Constants.ADMIN_PROCESS_ORDER_PATH,
-              new { controller = "Orders", action = "Process", id = UrlParameter.Optional },
+              new { controller = "Orders", action = "ProcessOrder", id = UrlParameter.Optional },
               new string[] { "ShopTree.Areas.Admin.Controllers" }
           );
 
             context.MapRoute(
-              "Admin Delivering Order",
+              "Admin List Order Delivering",
               Constants.ADMIN_DELIVERING_ORDER_PATH,
+              new { controller = "Orders", action = "ListOrderDelivering", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
+              "Admin Processing Delivery Order",
+              Constants.ADMIN_PROCESS_DELIVERY_ORDER_PATH,
               new { controller = "Orders", action = "Delivering", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
+              "Admin Order Detail",
+              Constants.ADMIN_ORDER_DETAIL_PATH,
+              new { controller = "Orders", action = "Detail", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
+              "Admin List Processed Order",
+              Constants.ADMIN_PROCESSED_ORDER_PATH,
+              new { controller = "Orders", action = "ListProcessedOrder", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
+              "Admin List Outstanding Order",
+              Constants.ADMIN_OUTSTANDING_ORDER_PATH,
+              new { controller = "Orders", action = "ListOutstandingOrder", id = UrlParameter.Optional },
               new string[] { "ShopTree.Areas.Admin.Controllers" }
           );
 
