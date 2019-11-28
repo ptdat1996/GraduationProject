@@ -149,6 +149,48 @@ namespace ShopTree
             );
 
             routes.MapRoute(
+                name: "Customer Information",
+                url: "khach-hang/thong-tin-ca-nhan",
+                defaults: new { controller = "Customers", action = "CustomerProfile" },
+                namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Customer Change Password",
+                url: "khach-hang/doi-mat-khau",
+                defaults: new { controller = "Customers", action = "ChangePassword" },
+                namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Customer Attend Product",
+                url: "khach-hang/cham-soc-cay",
+                defaults: new { controller = "Customers", action = "AttendProduct" },
+                namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Customer Check Order",
+                url: "khach-hang/don-hang-cua-toi",
+                defaults: new { controller = "ShoppingCart", action = "CheckOrder" },
+                namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "Check Order Without Login",
+                url: "kiem-tra-don-hang",
+                defaults: new { controller = "ShoppingCart", action = "CheckOrderWithoutLogin" },
+                namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.MapRoute(
+                name: "View Order Detail",
+                url: "don-hang/chi-tiet",
+                defaults: new { controller = "ShoppingCart", action = "ViewOrderDetail" },
+                namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

@@ -79,6 +79,10 @@ namespace ShopTree.Controllers
                     totalMoney += item.quantity * item.price;
                     db.OrderDetails.Add(detail);
                     db.SaveChanges();
+
+                    var product = db.Products.Find(item.productId);
+                    product.StockQuantity -= item.quantity;
+                    db.SaveChanges();
                 }
                 Customer customer;
                 if (Session["CustomerId"] == null)

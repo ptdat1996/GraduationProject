@@ -31,7 +31,7 @@
                                     <div class="sp-wrap sp-non-touch" style="display: inline-block;">
                                         <div class="sp-large">
                                             <a class="sp-current-big">
-                                                <img class="loading" src="@Model.Avatar" alt="@Model.ProductName">
+                                                <img class="loading" src="@Url.Content(Model.Avatar)" alt="@Model.ProductName">
                                             </a>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                             <div class="clearfix product_quantity m-t-10 m-b-20">
                                                 <label class="label_quantity m-b-5">Số lượng :</label>
                                                 <button class="button buttonQuantity btn-minus">-</button>
-                                                <input name="quantity" id="myQuantity" class="quantity text-center" min="1" value="1" type="number" readonly="readonly">
+                                                <input name="quantity" id="myQuantity" class="quantity text-center" min="1" max="@Model.Quantity" value="1" type="number" readonly="readonly">
                                                 <button class="button buttonQuantity btn-plus">+</button>
                                             </div>
                                             <div class="button clearfix">
@@ -95,7 +95,7 @@
                                 <div class="tab-pane active" id="tab-description">
                                     <div class="container-fluid">
                                         <div>
-                                            <img alt="@Model.ProductName" src="@Model.Avatar" class="img-description" />
+                                            <img alt="@Model.ProductName" src="@Url.Content(Model.Avatar)" class="img-description" />
                                             <p>@Model.Description</p>
                                         </div>
                                     </div>

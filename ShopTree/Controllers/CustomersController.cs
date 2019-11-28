@@ -138,7 +138,7 @@ namespace ShopTree.Controllers
             else
             {
                 int id = Convert.ToInt32(Session["CustomerId"].ToString());
-                var customer = db.Customers.Where(cus => cus.Id == id).Select(cus => cus).FirstOrDefault();
+                var customer = db.Customers.Find(id);
                 return View(customer);
             }         
         }
@@ -232,6 +232,25 @@ namespace ShopTree.Controllers
                 ViewBag.MessageSuccess = "Your request have been submited successfully, please check your email";
                 return View();
             }
+        }
+
+        public ActionResult AttendProduct()
+        {
+            if (Session["CustomerId"] == null)
+            {
+                return RedirectToAction("Login", "Customers");
+            }
+            ViewBag.Title = "Chăm sóc cây";
+            int customerId = Convert.ToInt32(Session["CustomerId"].ToString());
+            var orderList = db.Orders.Where(o => o.CustomerId == customerId).ToList();
+            List<Product> productList = new List<Product>();
+            foreach(var order in orderList)
+            {
+                var list = db.OrderDetails.Where(od => od.OrderId == order.Id).Select(od => od.Product).ToList();
+                productList.AddRange(list);
+            }
+            productList = productList.Distinct().ToList();
+            return View(productList);
         }
 
         private string RandomPassword()

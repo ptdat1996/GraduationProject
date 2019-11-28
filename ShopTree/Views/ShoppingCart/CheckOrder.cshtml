@@ -1,5 +1,5 @@
 ﻿@model List<ShopTree.Models.Order>
-
+@using System.Globalization
 <div class="main">
     <div class="container">
         <div class="row">
@@ -13,6 +13,7 @@
                     <ul>
                         <li><a href="@Url.Action("CustomerProfile", "Customers")"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
                         <li class="active"><a href="javascript:void(0);"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="@Url.Action("AttendProduct", "Customers")"><i class="fa fa-tree"></i> Chăm sóc cây</a></li>
                         <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
                         <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
                     </ul>
@@ -52,7 +53,7 @@
                                             <td>@index</td>
                                             <td><a href="javascript:void(0);">@item.OrderCode</a></td>
                                             <td><a href="javascript:void(0);">@item.Customer.Name</a></td>
-                                            <td>@item.Total.ToString("C2")</td>
+                                            <td>@item.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
                                             <td>@item.OrderStatus.Status</td>
                                             <td><a href="@Url.Action("ViewOrderDetail", "ShoppingCart", new { orderId = item.Id })"><i class="fa fa-angle-double-right "></i><span>Xem đơn hàng</span></a></td>
                                         </tr>

@@ -1,0 +1,89 @@
+﻿@model List<ShopTree.Models.Product>
+@using ShopTree.Common
+@using System.Globalization
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="menu-account ng-scope">
+                    <h3>
+                        <span>
+                            Quản lý cá nhân
+                        </span>
+                    </h3>
+                    <ul>
+                        <li><a href="@Url.Action("CustomerProfile", "Customers")"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
+                        <li><a href="@Url.Action("CheckOrder", "ShoppingCart")"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li class="active"><a href="javascript:void(0)"><i class="fa fa-tree"></i> Chăm sóc cây</a></li>
+                        <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
+                        <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="breadcrumb clearfix">
+                    <ul>
+                        <li class="home">
+                            <a title="Đến trang chủ" href="@Url.Action("Index", "Home")" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                        </li>
+                        <li class="icon-li"><strong>Các sản phẩm đã mua</strong></li>
+                    </ul>
+                </div>
+                <div class="comunication-content clearfix">
+                    <div class="row">
+                        @if (Model.Count > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 product-wrapper zoomIn wow" style="visibility: visible; animation-name: zoomIn;">
+                                    <div class="product-block product-resize m-b-20 fixheight" style="height: 295px;">
+                                        <div class="product-image image-resize">
+                                            <a href="@Url.Action("Detail", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })">
+                                                <img class="loading" src="@Url.Content(item.Avatar)">
+                                            </a>
+                                            <div class="product-actions hidden-xs">
+                                                <div class="btn-add-to-cart" proid="@item.Id" proname="@item.Name" quantity="1" price="@item.Price" proimg="@Url.Content(item.Avatar)">
+                                                    <a href="javascript:void(0);"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
+                                                </div>
+                                                <div class="btn_quickview">
+                                                    <a class="quickview" href="@Url.Action("Detail", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })"><i class="fa fa-eye"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-info text-center m-t-xxs-20">
+                                            <h3 class="pro-name">
+                                                <a href="@Url.Action("Detail", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })">@item.Name</a>
+                                            </h3>
+                                            <div class="pro-prices">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p>Bạn chưa mua sản phẩm nào hoặc đơn hàng của bạn chưa giao.</p>
+                            <ul>
+                                <li><p>Bấm vào <a href="@Url.Action("Index", "Home")">đây</a> để đi tới trang chủ</p></li>
+                                <li><p>Bấm vào <a href="@Url.Action("CheckOrder", "ShoppingCart")">đây</a> để kiểm tra đơn hàng</p></li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () {
+            $(".menu-quick-select ul").show();
+        }, function () {
+            $(".menu-quick-select ul").hide();
+        });
+    });
+</script>

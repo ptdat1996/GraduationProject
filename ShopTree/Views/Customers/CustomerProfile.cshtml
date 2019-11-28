@@ -13,6 +13,7 @@
                     <ul>
                         <li class="active"><a href="javascript:void(0);"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
                         <li><a href="@Url.Action("CheckOrder", "ShoppingCart")"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li><a href="@Url.Action("AttendProduct", "Customers")"><i class="fa fa-tree"></i> Chăm sóc cây</a></li>
                         <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
                         <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
                     </ul>
@@ -54,7 +55,7 @@
                                 <label class="col-sm-3 control-label">Mật khẩu</label>
                                 <div class="col-sm-9">
                                     <label class="control-label">***</label>
-                                    <a href="#"><i class="fa fa-edit"></i></a>
+                                    <a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-edit"></i></a>
                                 </div>
                             </div>
                             <h2>Thông tin cá nhân</h2>
