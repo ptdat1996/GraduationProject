@@ -308,6 +308,12 @@
     <Content Include="Areas\Admin\Views\Orders\AllOrder.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Navigation.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ProcessOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ListOrderDelivering.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Delivering.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ListProcessedOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Orders\ListOutstandingOrder.cshtml" />
     <EntityDeploy Include="Models\ShopTree.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ShopTree.Designer.cs</LastGenOutput>
@@ -315,12 +321,6 @@
     <Content Include="Models\ShopTree.edmx.diagram">
       <DependentUpon>ShopTree.edmx</DependentUpon>
     </Content>
-    <Content Include="Areas\Admin\Views\Orders\ProcessOrder.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\ListOrderDelivering.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Delivering.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\Detail.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\ListProcessedOrder.cshtml" />
-    <Content Include="Areas\Admin\Views\Orders\ListOutstandingOrder.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />

@@ -17,12 +17,11 @@ namespace ShopTree.Models
         public int Id { get; set; }
         public Nullable<int> ProductId { get; set; }
         public bool IsLikeWater { get; set; }
-        public bool IsLikeShadow { get; set; }
         public bool IsLikeSunny { get; set; }
-        public bool IsLikeDry { get; set; }
         public int RecommendSunnyHour { get; set; }
         public int RecommendWater { get; set; }
         public int RecommendFertilizer { get; set; }
+        public int RecommendTemperature { get; set; }
     
         public virtual Product Product { get; set; }
     }

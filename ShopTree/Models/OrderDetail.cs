@@ -21,7 +21,7 @@ namespace ShopTree.Models
         public int Quantity { get; set; }
         public int Discount { get; set; }
         public int Tax { get; set; }
-    
+
         public virtual Order Order { get; set; }
         public virtual Product Product { get; set; }
     }

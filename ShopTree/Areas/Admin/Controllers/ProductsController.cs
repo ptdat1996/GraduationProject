@@ -72,7 +72,7 @@ namespace ShopTree.Areas.Admin.Controllers
         public ActionResult Create()
         {
             ViewBag.Title = "Tạo sản phẩm";
-            ViewBag.CategoryList = db.Categories.ToList();
+            ViewBag.CategoryList = db.Categories.Take(10).ToList();
             return View();
         }
 
@@ -143,7 +143,7 @@ namespace ShopTree.Areas.Admin.Controllers
                 Status = product.Status,
                 Avatar = product.Avatar
             };
-            ViewBag.CategoryList = db.Categories.ToList();
+            ViewBag.CategoryList = db.Categories.Take(10).ToList();
             return View(productViewModel);
         }
 
