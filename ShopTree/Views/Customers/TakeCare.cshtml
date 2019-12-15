@@ -1,0 +1,194 @@
+﻿@model ShopTree.Models.PropertyViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="menu-account ng-scope">
+                    <h3>
+                        <span>
+                            Quản lý cá nhân
+                        </span>
+                    </h3>
+                    <ul>
+                        <li><a href="@Url.Action("CustomerProfile", "Customers")"><i class="glyphicon glyphicon-user"></i> Thông tin tài khoản</a></li>
+                        <li><a href="@Url.Action("CheckOrder", "ShoppingCart")"><i class="glyphicon glyphicon-list-alt"></i> Đơn hàng của tôi</a></li>
+                        <li class="active"><a href="javascript:void(0)"><i class="fa fa-tree"></i> Chăm sóc cây</a></li>
+                        <li><a href="@Url.Action("ChangePassword", "Customers")"><i class="fa fa-key"></i> Thay đổi mật khẩu</a></li>
+                        <li><a href="@Url.Action("Logout", "Customers")"><i class="glyphicon glyphicon-log-out"></i> Thoát</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="breadcrumb clearfix">
+                    <ul>
+                        <li class="home">
+                            <a title="Đến trang chủ" href="@Url.Action("Index", "Home")" itemprop="url"><span itemprop="title">Trang chủ</span></a>
+                        </li>
+                        <li class="icon-li"><strong>@Model.ProductName</strong></li>
+                    </ul>
+                </div>
+                <div class="comunication-content clearfix">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img src="@Url.Content(Model.Avatar)" />
+                            <span class="t-a-c">@Model.ProductName</span>
+                        </div>
+
+                        <div class="col-md-9">
+                            @using (Ajax.BeginForm("TakeCare", "Customers",
+                                new AjaxOptions
+                                {
+                                    HttpMethod = "POST",
+                                    LoadingElementId = "loader",
+                                    OnBegin = "OnTakecareBegin",
+                                    OnSuccess = "OnTakecareSuccess"
+                                },
+                                new { @class = "form-horizontal" }))
+                            {
+                                <input type="hidden" name="ProductId" value="@Model.ProductId" />
+
+                                <div class="form-group">
+                                    <label for="SunnyHour" class="col-sm-offset-1 col-sm-3 custom-form-label">Số giờ nắng(h) :</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.SunnyHour, new { @class = "form-control", @type = "number", @min = "1", @autofocus = "autofocus", @value = ViewBag.SunnyHour })
+                                        <div class="field-error mb-2">
+                                            @Html.ValidationMessage("SunnyHour", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Water" class="col-sm-offset-1 col-sm-3 custom-form-label">Lượng nước(ml) :</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Water, new { @class = "form-control", @type = "number", @min = "1", @value = ViewBag.Water })
+                                        <div class="field-error mb-2">
+                                            @Html.ValidationMessage("Water", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Fertilizer" class="col-sm-offset-1 col-sm-3 custom-form-label">Lượng phân(mg) :</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Fertilizer, new { @class = "form-control", @type = "number", @min = "1", @value = ViewBag.Fertilizer })
+                                        <div class="field-error mb-2">
+                                            @Html.ValidationMessage("Fertilizer", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Temperature" class="col-sm-offset-1 col-sm-3 custom-form-label">Nhiệt độ(ºC) :</label>
+                                    <div class="col-sm-8">
+                                        @Html.TextBoxFor(model => model.Temperature, new { @class = "form-control", @type = "number", @min = "1", @value = ViewBag.Temperature })
+                                        <div class="field-error mb-2">
+                                            @Html.ValidationMessage("Temperature", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-sm-offset-4 col-sm-8 custom-form-label"><span class="text-danger">(*)</span>Đây là dữ liệu nhập trong ngày</label>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-sm-offset-4 col-sm-2">
+                                            <button type="submit" class="btn btn-care-submit" id="btnTakecareSubmit">Xác nhận</button>
+                                        </div>
+                                        <div class="col-sm-4 loading-text" id="loader">
+                                            <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                            Loading....
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div id="recommend">
+                        <div class="row">
+                            <div class="col-md-offset-3">
+                                <h2>Thông tin thuộc tính sản phẩm</h2>
+                                <table>
+                                    <tr>
+                                        <td><b>Tên sản phẩm</b></td>
+                                        <td>@Model.ProductName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if (Model.IsLikeSunny)
+                                            {
+                                                <b>Cây ưa sáng</b>
+                                            }
+                                            else
+                                            {
+                                                <b>Cây ưa râm</b>
+                                            }
+                                        </td>
+                                        <td><input type="checkbox" disabled="disabled" checked="checked" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            @if (Model.IsLikeWater)
+                                            {
+                                                <b>Cây ưa ẩm</b>
+                                            }
+                                            else
+                                            {
+                                                <b>Cây ưa cạn</b>
+                                            }
+                                        </td>
+                                        <td><input type="checkbox" disabled="disabled" checked="checked" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Số giờ nắng khuyến nghị </b></td>
+                                        <td>@(Model.RecommendSunnyHour.ToString() + " giờ")</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Lượng nước khuyến nghị</b></td>
+                                        <td>@(Model.RecommendWater.ToString() + " ml")</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Lượng phân bón khuyến nghị</b></td>
+                                        <td>@(Model.RecommendFertilizer.ToString() + " mg")</td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Nhiệt độ khuyến nghị</b></td>
+                                        <td>@(Model.RecommendTemperature.ToString() + " ºC")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-offset-3">
+                                <h2>Khuyến cáo</h2>
+                                <div id="adviceSunnyHour"></div>
+                                <div id="adviceWater"></div>
+                                <div id="adviceFertilizer"></div>
+                                <div id="adviceTemperature"></div>                   
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".menu-quick-select ul").hide();
+        $(".menu-quick-select").hover(function () {
+            $(".menu-quick-select ul").show();
+        }, function () {
+            $(".menu-quick-select ul").hide();
+        });
+    });
+</script>
+

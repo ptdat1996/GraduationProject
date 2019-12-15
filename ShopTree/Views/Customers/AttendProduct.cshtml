@@ -38,24 +38,16 @@
                                 <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 product-wrapper zoomIn wow" style="visibility: visible; animation-name: zoomIn;">
                                     <div class="product-block product-resize m-b-20 fixheight" style="height: 295px;">
                                         <div class="product-image image-resize">
-                                            <a href="@Url.Action("Detail", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })">
+                                            <a href="@Url.Action("TakeCare", "Customers", new { id = Slug.GenerateSlug(item.Id, item.Name) })">
                                                 <img class="loading" src="@Url.Content(item.Avatar)">
-                                            </a>
-                                            <div class="product-actions hidden-xs">
-                                                <div class="btn-add-to-cart" proid="@item.Id" proname="@item.Name" quantity="1" price="@item.Price" proimg="@Url.Content(item.Avatar)">
-                                                    <a href="javascript:void(0);"><i class="fa fa-shopping-bag" aria-hidden="true"></i></a>
-                                                </div>
-                                                <div class="btn_quickview">
-                                                    <a class="quickview" href="@Url.Action("Detail", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })"><i class="fa fa-eye"></i></a>
-                                                </div>
-                                            </div>
+                                            </a>                             
                                         </div>
                                         <div class="product-info text-center m-t-xxs-20">
                                             <h3 class="pro-name">
-                                                <a href="@Url.Action("Detail", "Products", new { id = Slug.GenerateSlug(item.Id, item.Name) })">@item.Name</a>
+                                                <a href="@Url.Action("TakeCare", "Customers", new { id = Slug.GenerateSlug(item.Id, item.Name) })">@item.Name</a>
                                             </h3>
                                             <div class="pro-prices">
-                                                
+                                                <a class="btn btn-take-care" href="@Url.Action("TakeCare", "Customers", new { id = Slug.GenerateSlug(item.Id, item.Name) })">Chăm sóc</a>
                                             </div>
                                         </div>
                                     </div>

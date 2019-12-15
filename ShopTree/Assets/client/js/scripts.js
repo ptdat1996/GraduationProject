@@ -1,4 +1,4 @@
-jQuery(document).ready(function($){
+﻿jQuery(document).ready(function($){
 	new WOW().init();
 	$('.loader_overlay').addClass('loaded');
 
@@ -95,4 +95,60 @@ jQuery(window).scroll(function() {
 		$('#header').removeClass('header_fixed');
 	}
 });
+
+OnTakecareBegin = () => {
+    $("button[type='submit']").attr("disabled", "disabled");
+    $("#adviceSunnyHour").empty();
+    $("#adviceWater").empty();
+    $("#adviceFertilizer").empty();
+    $("#adviceTemperature").empty();
+};
+
+OnTakecareSuccess = (response) => {
+    $("button[type='submit']").removeAttr("disabled");
+    $("#recommend").css("display", "block");
+
+    var imgTick = '<img src="/Assets/client/images/green_tick.png" />';
+    var imgCross = '<img src="/Assets/client/images/red_cross.png" />';
+
+    //SunnyHour
+    if (response.IsEnoughSunnyHour) {
+        $("#adviceSunnyHour").append(imgTick);
+        $("#adviceSunnyHour").append('<span>' + response.AdviceSunnyHour + '</span>');
+    }
+    else {
+        $("#adviceSunnyHour").append(imgCross);
+        $("#adviceSunnyHour").append('<span>' + response.AdviceSunnyHour + '</span>');
+    }
+
+    //Water
+    if (response.IsEnoughWater) {
+        $("#adviceWater").append(imgTick);
+        $("#adviceWater").append('<span>' + response.AdviceWater + '</span>');
+    }
+    else {
+        $("#adviceWater").append(imgCross);
+        $("#adviceWater").append('<span>' + response.AdviceWater + '</span>');
+    }
+
+    //Fertilizer
+    if (response.IsEnoughFertilizer) {
+        $("#adviceFertilizer").append(imgTick);
+        $("#adviceFertilizer").append('<span>' + response.AdviceFertilizer + '</span>');
+    }
+    else {
+        $("#adviceFertilizer").append(imgCross);
+        $("#adviceFertilizer").append('<span>' + response.AdviceFertilizer + '</span>');
+    }
+
+    //Fertilizer
+    if (response.IsEnoughTemperature) {
+        $("#adviceTemperature").append(imgTick);
+        $("#adviceTemperature").append('<span>' + response.AdviceTemperature + '</span>');
+    }
+    else {
+        $("#adviceTemperature").append(imgCross);
+        $("#adviceTemperature").append('<span>' + response.AdviceTemperature + '</span>');
+    }
+};
 

@@ -139,6 +139,7 @@ namespace ShopTree.Controllers
             if (orderDB != null)
             {
                 //found order
+                ViewBag.OrderCode = orderCode;
                 var list = db.OrderDetails.Where(order => order.Order.OrderCode.Equals(orderCode)).ToList();
                 OrderInfomation orderInfomation = new OrderInfomation()
                 {

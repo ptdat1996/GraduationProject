@@ -9619,5 +9619,52 @@ CSS CSS Scripts
     margin-left: auto;
     margin-right: auto
 }
+.t-a-c {
+    display: block;
+    text-align: center;
+    color: #0f9ed8;
+    font-weight: bold;
+}
+.loading-text {
+    display: none;
+    margin-top: 0.375rem;
+    color: #36a9e1;
+}
+.loading-img {
+    width: 20px;
+    height: auto;
+}
+.custom-form-label{
+    padding-top : 7px;
+    margin-bottom : 0;
+}
+.btn-care-submit {
+    border: 1px solid;
+    display: inline-block;
+    color: #ffffff;
+    background-color: #0f9ed8;
+    border-color: #0f9ed8;
+    padding: 6px 12px;
+}
+
+    .btn-care-submit:hover {
+        background: #ffffff;
+        border: 1px solid #0f9ed8;
+        color: #0f9ed8;
+    }
+#recommend{
+    display : none;
+}
+.btn-take-care {
+    height: 28px;
+    border: #0f9ed8 1px solid;
+    color: #ffffff !important;
+    background-color: #0f9ed8;
+}
+
+    .btn-take-care:hover {
+        background-color: white;
+        color: #0f9ed8 !important;
+    }
 /*END-CSS:BOX STYLE
 ==================================================================================================================*/

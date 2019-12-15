@@ -164,7 +164,7 @@ namespace ShopTree
 
             routes.MapRoute(
                 name: "Customer Attend Product",
-                url: "khach-hang/cham-soc-cay",
+                url: "cham-soc-cay",
                 defaults: new { controller = "Customers", action = "AttendProduct" },
                 namespaces: new[] { "ShopTree.Controllers" }
             );
@@ -188,6 +188,11 @@ namespace ShopTree
                 url: "don-hang/chi-tiet",
                 defaults: new { controller = "ShoppingCart", action = "ViewOrderDetail" },
                 namespaces: new[] { "ShopTree.Controllers" }
+            );
+
+            routes.Add("Takecare", new FriendlyRoute("cham-soc-cay/{id}",
+                                                      new { controller = "Customers", action = "TakeCare" },
+                                                      new[] { "ShopTree.Controllers" })
             );
 
             routes.MapRoute(

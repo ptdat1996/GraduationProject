@@ -28,6 +28,7 @@ namespace ShopTree.Common
 
         public const int MIN_LENGTH_PASSWORD = 6;
 
+        #region Error
         public const string ERR_REQUIRED_NAME = "Tên không được để trống";
 
         public const string ERR_REQUIRED_FILE = "Vui lòng chọn file";
@@ -50,7 +51,17 @@ namespace ShopTree.Common
 
         public const string ERR_REQUIRED_PRIORITY = "Độ ưu tiên không được trống";
 
+        public const string ERR_REQUIRED_SUNNYHOUR = "Số giờ nắng không được trống";
+
+        public const string ERR_REQUIRED_WATER = "Lượng nước không được trống";
+
+        public const string ERR_REQUIRED_FERTILIZER = "Lượng phân không được trống";
+
+        public const string ERR_REQUIRED_TEMPERATURE = "Nhiệt độ không được trống";
+
         public const string ERR_MIN_LENGTH_PASSWORD = "Mật khẩu dài hơn 6 ký tự";
+
+        public const string ERR_MIN_PROPERTY = "Giá trị nhập vào lớn hơn {0} đơn vị";
 
         public const string ERR_VALUE_DISCOUNT = "Tỉ lệ giảm giá lớn hơn 0 hoặc nhỏ hơn 100";
 
@@ -59,21 +70,25 @@ namespace ShopTree.Common
         public const string ERR_LOCK_CREDENTIAL = "Tài khoản của bạn đang bị khoá!";
 
         public const string ERR_INVALID_EMAIL = "Email không hợp lệ";
+        #endregion Error
 
         public static string EmailAccount = ConfigurationManager.AppSettings["EmailAccount"];
 
         public static string EmailPassword = ConfigurationManager.AppSettings["EmailPassword"];
 
+        #region Role
         public const string ROLE_ADMIN = "Admin";
 
         public const string ROLE_EMPLOYEE = "Employee";
 
         public const string ROLE_SHIPPER = "Shipper";
+        #endregion Role
 
         public const int PAGE_SIZE_ADMIN = 5;
 
         public const int PAGE_SIZE_CLIENT = 12;
 
+        #region Path
         public const string CATEGORY_ICON_PATH = "~/Assets/client/images/icon/";
 
         public const string BLOG_IMAGE_PATH = "~/Assets/client/images/blog/";
@@ -123,5 +138,32 @@ namespace ShopTree.Common
         public const string ADMIN_PROCESSED_ORDER_PATH = "admin/don-hang/da-xu-ly";
 
         public const string ADMIN_OUTSTANDING_ORDER_PATH = "admin/don-hang/chua-xu-ly";
+        #endregion Path
+
+        #region Advice
+        public const string ADVICE_FOR_ENOUGH_SUNNYHOUR = "Số giờ nắng vừa đủ, nên tiếp tục duy trì.";
+
+        public const string ADVICE_FOR_MUCH_SUNNYHOUR = "Số giờ nắng hơi nhiều, nên hạn chế phơi nắng.";
+
+        public const string ADVICE_FOR_LESS_SUNNYHOUR = "Số giờ nắng hơi ít, nên tăng cường phơi nắng.";
+
+        public const string ADVICE_FOR_ENOUGH_WATER = "Lượng nước tưới vừa đủ, nên tiếp tục duy trì.";
+
+        public const string ADVICE_FOR_MUCH_WATER = "Lượng nước tưới hơi nhiều, nên hạn chế tưới nước, tránh làm úng cây.";
+
+        public const string ADVICE_FOR_LESS_WATER = "Lượng nước tưới hơi ít, nên tăng cường tưới nước, tránh làm héo cây.";
+
+        public const string ADVICE_FOR_ENOUGH_FERTILIZER = "Lượng phân bón vừa đủ, nên tiếp tục duy trì.";
+
+        public const string ADVICE_FOR_MUCH_FERTILIZER = "Lượng phân bón hơi nhiều, nên hạn chế bón phân.";
+
+        public const string ADVICE_FOR_LESS_FERTILIZER = "Lượng phân bón hơi ít, nên tăng cường bón phân.";
+
+        public const string ADVICE_FOR_ENOUGH_TEMPERATURE = "Nhiệt độ vừa đủ, nên tiếp tục duy trì.";
+
+        public const string ADVICE_FOR_HIGH_TEMPERATURE = "Nhiệt độ hơi cao, nên hạ thấp nhiệt độ.";
+
+        public const string ADVICE_FOR_LOW_TEMPERATURE = "Nhiệt độ hơi thấp, nên tăng nhiệt độ.";
+        #endregion Advice
     }
 }

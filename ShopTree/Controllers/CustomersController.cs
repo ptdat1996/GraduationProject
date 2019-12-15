@@ -253,6 +253,127 @@ namespace ShopTree.Controllers
             return View(productList);
         }
 
+        public ActionResult TakeCare(int id)
+        {
+            if (Session["CustomerId"] == null)
+            {
+                return RedirectToAction("Login", "Customers");
+            }
+            if (db.Products.Find(id) == null)
+            {
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+            ViewBag.Title = "Hướng dẫn chăm sóc cây";
+            var property = db.Properties.Where(p => p.ProductId == id).SingleOrDefault();
+            PropertyViewModel propertyViewModel = new PropertyViewModel()
+            {
+                ProductId = property.ProductId.Value,
+                ProductName = property.Product.Name,
+                Avatar = property.Product.Avatar,
+                IsLikeSunny = property.IsLikeSunny,
+                IsLikeWater = property.IsLikeWater,
+                RecommendSunnyHour = property.RecommendSunnyHour,
+                RecommendWater = property.RecommendWater,
+                RecommendFertilizer = property.RecommendFertilizer,
+                RecommendTemperature = property.RecommendTemperature
+            };
+            return View(propertyViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult TakeCare(PropertyViewModel propertyViewModel)
+        {
+            var property = db.Properties.Where(p => p.ProductId == propertyViewModel.ProductId).SingleOrDefault();
+            ViewBag.IsReturn = true;
+            ViewBag.SunnyHour = propertyViewModel.SunnyHour;
+            ViewBag.Water = propertyViewModel.Water;
+            ViewBag.Fertilizer = propertyViewModel.Fertilizer;
+            ViewBag.Temperature = propertyViewModel.Temperature;
+            TakecareResponseMessage advice = new TakecareResponseMessage();
+
+            #region SunnyHour
+            if(propertyViewModel.SunnyHour != property.RecommendSunnyHour)
+            {
+                advice.IsEnoughSunnyHour = false;
+                if(propertyViewModel.SunnyHour > property.RecommendSunnyHour)
+                {
+                    advice.AdviceSunnyHour = Constants.ADVICE_FOR_MUCH_SUNNYHOUR;
+                }
+                else
+                {
+                    advice.AdviceSunnyHour = Constants.ADVICE_FOR_LESS_SUNNYHOUR;
+                }
+            }
+            else
+            {
+                advice.IsEnoughSunnyHour = true;
+                advice.AdviceSunnyHour = Constants.ADVICE_FOR_ENOUGH_SUNNYHOUR;
+            }
+            #endregion SunnyHour
+
+            #region Water
+            if (propertyViewModel.Water != property.RecommendWater)
+            {
+                advice.IsEnoughWater = false;
+                if (propertyViewModel.Water > property.RecommendWater)
+                {
+                    advice.AdviceWater = Constants.ADVICE_FOR_MUCH_WATER;
+                }
+                else
+                {
+                    advice.AdviceWater = Constants.ADVICE_FOR_LESS_WATER;
+                }
+            }
+            else
+            {
+                advice.IsEnoughWater = true;
+                advice.AdviceWater = Constants.ADVICE_FOR_ENOUGH_WATER;
+            }
+            #endregion Water
+
+            #region Fertilizer
+            if (propertyViewModel.Fertilizer != property.RecommendFertilizer)
+            {
+                advice.IsEnoughFertilizer = false;
+                if (propertyViewModel.Fertilizer > property.RecommendFertilizer)
+                {
+                    advice.AdviceFertilizer = Constants.ADVICE_FOR_MUCH_FERTILIZER;
+                }
+                else
+                {
+                    advice.AdviceFertilizer = Constants.ADVICE_FOR_LESS_FERTILIZER;
+                }
+            }
+            else
+            {
+                advice.IsEnoughFertilizer = true;
+                advice.AdviceFertilizer = Constants.ADVICE_FOR_ENOUGH_FERTILIZER;
+            }
+            #endregion Fertilizer
+
+            #region Temperature
+            if (propertyViewModel.Temperature != property.RecommendTemperature)
+            {
+                advice.IsEnoughTemperature = false;
+                if (propertyViewModel.Temperature > property.RecommendTemperature)
+                {
+                    advice.AdviceTemperature = Constants.ADVICE_FOR_HIGH_TEMPERATURE;
+                }
+                else
+                {
+                    advice.AdviceTemperature = Constants.ADVICE_FOR_LOW_TEMPERATURE;
+                }
+            }
+            else
+            {
+                advice.IsEnoughTemperature = true;
+                advice.AdviceTemperature = Constants.ADVICE_FOR_ENOUGH_TEMPERATURE;
+            }
+            #endregion Temperature
+
+            return Json(advice);
+        }
+
         private string RandomPassword()
         {
             Random random = new Random();
