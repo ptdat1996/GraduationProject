@@ -4,11 +4,15 @@ using System.Linq;
 using System.Web;
 using System.Net.Mail;
 using System.Net;
+using ShopTree.Models;
+using System.Globalization;
 
 namespace ShopTree.Common
 {
     public class SendMail
     {
+        private static ShopTreeEntities db = new ShopTreeEntities();
+
         public static SmtpClient stmp = new SmtpClient
         {
             Host = "smtp.gmail.com",
@@ -45,7 +49,7 @@ namespace ShopTree.Common
         {
             using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
             {
-                mail.Subject = "Welcome to Fairy Garden Shop " + Environment.NewLine;
+                mail.Subject = "Welcome to Fairy Garden Shop";
 
                 string body = "Hello " + customerName + Environment.NewLine;
                 body += "Welcome to our website, Mr/Mrs " + customerName + Environment.NewLine;
@@ -64,48 +68,95 @@ namespace ShopTree.Common
         }
 
         //not finish yet
-        public static void SendEmailToCustomerForNewOrder(string customerEmail, string customerName, string password)
+        public static void SendEmailToCustomerForNewOrder(string customerEmail, Order order)
         {
             using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
             {
-                mail.Subject = "About order of  " + customerEmail + Environment.NewLine;
+                try
+                {
+                    mail.Subject = "About order of  " + customerEmail;
 
-                string body = "Hello " + customerName + Environment.NewLine;
-                body += "Welcome to our website, Mr/Mrs " + customerName + Environment.NewLine;
-                body += "Your information to login :" + Environment.NewLine;
-                body += "\tYour user name  : " + customerEmail + Environment.NewLine;
-                body += "\tYour password  : " + password + Environment.NewLine;
-                body += Environment.NewLine;
-                body += "Thank you for using our services." + Environment.NewLine;
-                body += "Best regards." + Environment.NewLine;
-                body += "Fairy Garden Team";
+                    string body = "Hi Mr/Mrs " + order.Customer.Name + Environment.NewLine;
+                    body += "Thank you for your order in our shop." + Environment.NewLine;
+                    body += "OrderCode : " + order.OrderCode + Environment.NewLine;
+                    body += "OrderDate : " + order.OrderDate.ToString("dd/MM/yyyy") + Environment.NewLine;
+                    body += "Your cart details are below :" + Environment.NewLine;
+                    var orderDetails = db.OrderDetails.Where(od => od.OrderId == order.Id).ToList();
+                    foreach (var item in orderDetails)
+                    {
+                        body += "\t" + item.Product.Name + " x " + item.Quantity + Environment.NewLine;
+                    }
+                    body += "Total : " + order.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN")) + Environment.NewLine;
+                    body += "Payer : " + Environment.NewLine;
+                    body += "\tName :" + order.Customer.Name + Environment.NewLine;
+                    body += "\tEmail :" + order.Customer.Email + Environment.NewLine;
+                    body += "\tPhone :" + order.Customer.Phone + Environment.NewLine;
+                    body += "\tAddress :" + order.Customer.Address + Environment.NewLine;
+                    body += "Receiver : " + Environment.NewLine;
+                    if(order.Delivery == null)
+                    {
+                        body += "\tName :" + order.Customer.Name + Environment.NewLine;
+                        body += "\tEmail :" + order.Customer.Email + Environment.NewLine;
+                        body += "\tPhone :" + order.Customer.Phone + Environment.NewLine;
+                        body += "\tAddress :" + order.Customer.Address + Environment.NewLine;
+                    }
+                    else
+                    {
+                        body += "\tName :" + order.Delivery.Name + Environment.NewLine;
+                        body += "\tEmail :" + order.Delivery.Email + Environment.NewLine;
+                        body += "\tPhone :" + order.Delivery.Phone + Environment.NewLine;
+                        body += "\tAddress :" + order.Delivery.Address + Environment.NewLine;
+                    }
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
 
-                mail.Body = body;
+                    mail.Body = body;
 
-                stmp.Send(mail);
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
             };
         }
 
         //not finish yet
-        public static void SendEmailToShippingForNewOrder(string customerEmail, string customerName, string password)
+        public static void SendEmailToDeliveryForNewOrder(string deliveryEmail, Order order)
         {
-            using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
+            using (var mail = new MailMessage(Constants.EmailAccount, deliveryEmail))
             {
-                mail.Subject = "About order of  " + customerEmail + Environment.NewLine;
+                try
+                {
+                    mail.Subject = "A new order is delivering to you";
 
-                string body = "Hello " + customerName + Environment.NewLine;
-                body += "Welcome to our website, Mr/Mrs " + customerName + Environment.NewLine;
-                body += "Your information to login :" + Environment.NewLine;
-                body += "\tYour user name  : " + customerEmail + Environment.NewLine;
-                body += "\tYour password  : " + password + Environment.NewLine;
-                body += Environment.NewLine;
-                body += "Thank you for using our services." + Environment.NewLine;
-                body += "Best regards." + Environment.NewLine;
-                body += "Fairy Garden Team";
+                    string body = "Hi Mr/Mrs " + order.Delivery.Name + Environment.NewLine;
+                    body += "A new order from " + order.Customer.Name + " is delivering to you." + Environment.NewLine;
+                    body += "OrderCode : " + order.OrderCode + Environment.NewLine;
+                    body += "OrderDate : " + order.OrderDate.ToString("dd/MM/yyyy") + Environment.NewLine;
+                    body += "Your cart details are below :" + Environment.NewLine;
+                    var orderDetails = db.OrderDetails.Where(od => od.OrderId == order.Id).ToList();
+                    foreach (var item in orderDetails)
+                    {
+                        body += "\t" + item.Product.Name + " x " + item.Quantity + Environment.NewLine;
+                    }
+                    body += "Total : " + order.Total.ToString("C", CultureInfo.GetCultureInfo("vi-VN")) + Environment.NewLine;
+   
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
 
-                mail.Body = body;
+                    mail.Body = body;
 
-                stmp.Send(mail);
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
             };
         }   
     }

@@ -62,6 +62,7 @@ namespace ShopTree.Controllers
                     db.Deliveries.Add(delivery);
                     db.SaveChanges();
                     order.DeliveryId = delivery.Id;
+                    order.Delivery = delivery;
                 }
 
                 List<CartItem> shoppingCart = JsonConvert.DeserializeObject<List<CartItem>>(orderViewModel.CartData);
@@ -112,6 +113,11 @@ namespace ShopTree.Controllers
                 order.OrderStatusId = 1;
                 order.OrderCode = GenerateOrderCode(customer.Id, order.Id);
                 db.SaveChanges();
+                SendMail.SendEmailToCustomerForNewOrder(customer.Email, order);
+                if(order.Delivery != null)
+                {
+                    SendMail.SendEmailToDeliveryForNewOrder(order.Delivery.Email, order);
+                }
                 return View("PaymentSuccess", order);
             }
             catch
