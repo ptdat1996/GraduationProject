@@ -28,19 +28,26 @@ namespace ShopTree.Common
         {
             using (var mail = new MailMessage(Constants.EmailAccount, deliveryEmail))
             {
-                mail.Subject = "About recovery password of " + deliveryEmail;
+                try
+                {
+                    mail.Subject = "About recovery password of " + deliveryEmail;
 
-                string body = "Hello " + customerName + Environment.NewLine;
-                body += "You have just sent a request about recovery your password." + Environment.NewLine;
-                body += "Here is your new password : " + newPassword + Environment.NewLine;
-                body += Environment.NewLine;
-                body += "Thank you for using our services." + Environment.NewLine;
-                body += "Best regards." + Environment.NewLine;
-                body += "Fairy Garden Team";
+                    string body = "Hello " + customerName + Environment.NewLine;
+                    body += "You have just sent a request about recovery your password." + Environment.NewLine;
+                    body += "Here is your new password : " + newPassword + Environment.NewLine;
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team";
 
-                mail.Body = body;
+                    mail.Body = body;
 
-                stmp.Send(mail);
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
             };
         }
 
@@ -49,25 +56,33 @@ namespace ShopTree.Common
         {
             using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
             {
-                mail.Subject = "Welcome to Fairy Garden Shop";
+                try
+                {
+                    mail.Subject = "Welcome to Fairy Garden Shop";
 
-                string body = "Hello " + customerName + Environment.NewLine;
-                body += "Welcome to our website, Mr/Mrs " + customerName + Environment.NewLine;
-                body += "Your information to login :" + Environment.NewLine;
-                body += "\tYour user name  : " + customerEmail + Environment.NewLine;
-                body += "\tYour password  : " + password + Environment.NewLine;
-                body += Environment.NewLine;
-                body += "Thank you for using our services." + Environment.NewLine;
-                body += "Best regards." + Environment.NewLine;
-                body += "Fairy Garden Team";
+                    string body = "Hi " + customerName + "," + Environment.NewLine;
+                    body += "Welcome to our website, Mr/Mrs " + customerName + Environment.NewLine;
+                    body += "Your information to login :" + Environment.NewLine;
+                    body += "\tYour user name  : " + customerEmail + Environment.NewLine;
+                    body += "\tYour password  : " + password + Environment.NewLine;
+                    body += "Hope we have a good time together. :" + Environment.NewLine;
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team";
 
-                mail.Body = body;
+                    mail.Body = body;
 
-                stmp.Send(mail);
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
             };
         }
 
-        //not finish yet
+        //done
         public static void SendEmailToCustomerForNewOrder(string customerEmail, Order order)
         {
             using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
@@ -123,7 +138,7 @@ namespace ShopTree.Common
             };
         }
 
-        //not finish yet
+        //done
         public static void SendEmailToDeliveryForNewOrder(string deliveryEmail, Order order)
         {
             using (var mail = new MailMessage(Constants.EmailAccount, deliveryEmail))
