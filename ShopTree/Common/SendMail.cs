@@ -65,7 +65,7 @@ namespace ShopTree.Common
                     body += "Your information to login :" + Environment.NewLine;
                     body += "\tYour user name  : " + customerEmail + Environment.NewLine;
                     body += "\tYour password  : " + password + Environment.NewLine;
-                    body += "Hope we have a good time together. :" + Environment.NewLine;
+                    body += "Hope we have a good time together." + Environment.NewLine;
                     body += Environment.NewLine;
                     body += "Thank you for using our services." + Environment.NewLine;
                     body += "Best regards." + Environment.NewLine;
@@ -83,7 +83,7 @@ namespace ShopTree.Common
         }
 
         //done
-        public static void SendEmailToCustomerForNewOrder(string customerEmail, Order order)
+        public static void SendMailToCustomerForNewOrder(string customerEmail, Order order)
         {
             using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
             {
@@ -139,9 +139,9 @@ namespace ShopTree.Common
         }
 
         //done
-        public static void SendEmailToDeliveryForNewOrder(string deliveryEmail, Order order)
+        public static void SendMailToReceiverForNewOrder(string receiverEmail, Order order)
         {
-            using (var mail = new MailMessage(Constants.EmailAccount, deliveryEmail))
+            using (var mail = new MailMessage(Constants.EmailAccount, receiverEmail))
             {
                 try
                 {
@@ -173,6 +173,162 @@ namespace ShopTree.Common
                     return;
                 }
             };
-        }   
+        }
+
+        //done
+        public static void SendMailToCustomerWhenAcceptOrder(string customerEmail, int orderId)
+        {
+            using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
+            {
+                try
+                {
+                    var order = db.Orders.Find(orderId);
+                    mail.Subject = "Your order is being shipped";
+
+                    string body = "Hi Mr/Mrs " + order.Customer.Name + Environment.NewLine;
+                    body += "Your order has been accepted in our system at " + DateTime.Now.ToString("dd/MM/yyyy") + ". We will delivery it to you soon." + Environment.NewLine;
+                    body += "Your order code : " + order.OrderCode + Environment.NewLine;
+                    body += "Please wait patiently for us to ship your order." + Environment.NewLine;
+
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
+
+                    mail.Body = body;
+
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
+            };
+        }
+
+        //done
+        public static void SendMailToReceiverWhenAcceptOrder(string receiverEmail, int orderId)
+        {
+            using (var mail = new MailMessage(Constants.EmailAccount, receiverEmail))
+            {
+                try
+                {
+                    var order = db.Orders.Find(orderId);
+                    mail.Subject = "An order from " + order.Customer.Email + " is being shipped to you";
+
+                    string body = "Hi Mr/Mrs " + order.Delivery.Name + Environment.NewLine;
+                    body += "An order from " + order.Customer.Email + " has been accepted in our system at " + DateTime.Now.ToString("dd/MM/yyyy") + ". We will delivery it to you soon." + Environment.NewLine;
+                    body += "Your order code : " + order.OrderCode + Environment.NewLine;
+                    body += "Please wait patiently for us to ship your order." + Environment.NewLine;
+
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
+
+                    mail.Body = body;
+
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
+            };
+        }
+
+        //done
+        public static void SendMailToCustomerWhenDelivered(string customerEmail, int orderId)
+        {
+            using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
+            {
+                try
+                {
+                    var order = db.Orders.Find(orderId);
+                    mail.Subject = "Your order has been delivered successfully.";
+
+                    string body = "Hi Mr/Mrs " + order.Customer.Name + Environment.NewLine;
+                    body += "Your order has been delivered successfully at " + order.DeliveryDate.Value.ToString("dd/MM/yyyy") + Environment.NewLine;
+                    body += "Your order code : " + order.OrderCode + Environment.NewLine;
+                    body += "Hope you are satisfied with our product." + Environment.NewLine;
+
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
+
+                    mail.Body = body;
+
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
+            };
+        }
+
+        //done
+        public static void SendMailToReceiverWhenDelivered(string receiverEmail, int orderId)
+        {
+            using (var mail = new MailMessage(Constants.EmailAccount, receiverEmail))
+            {
+                try
+                {
+                    var order = db.Orders.Find(orderId);
+                    mail.Subject = "An order from " + order.Customer.Email + " has been delivered successfully.";
+
+                    string body = "Hi Mr/Mrs " + order.Delivery.Name + Environment.NewLine;
+                    body += "An order from " + order.Customer.Name + " has been delivered to you at " + order.DeliveryDate.Value.ToString("dd/MM/yyyy") + Environment.NewLine;
+                    body += "Order code : " + order.OrderCode + Environment.NewLine;
+                    body += "Hope you are satisfied with our product." + Environment.NewLine;
+
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
+
+                    mail.Body = body;
+
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
+            };
+        }
+
+        //done
+        public static void SendMailToCustomerWhenCancelOrder(string customerEmail,int orderId)
+        {
+            using (var mail = new MailMessage(Constants.EmailAccount, customerEmail))
+            {
+                try
+                {
+                    var order = db.Orders.Find(orderId);
+                    mail.Subject = "An order " + order.OrderCode + " has been cancelled.";
+
+                    string body = "Hi Mr/Mrs " + order.Customer.Name + Environment.NewLine;
+                    body += "Your order has been cancelled at " + order.DeliveryDate.Value.ToString("dd/MM/yyyy") + Environment.NewLine;
+                    body += "Your order code : " + order.OrderCode + Environment.NewLine;
+                    body += "Cancel reason : " + order.CancelReason + Environment.NewLine;
+                    body += "We are sorry about it. Hope you still support us in the future." + Environment.NewLine;
+
+                    body += Environment.NewLine;
+                    body += "Thank you for using our services." + Environment.NewLine;
+                    body += "Best regards." + Environment.NewLine;
+                    body += "Fairy Garden Team.";
+
+                    mail.Body = body;
+
+                    stmp.Send(mail);
+                }
+                catch
+                {
+                    return;
+                }
+            };
+        }
     }
 }

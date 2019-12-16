@@ -113,10 +113,10 @@ namespace ShopTree.Controllers
                 order.OrderStatusId = 1;
                 order.OrderCode = GenerateOrderCode(customer.Id, order.Id);
                 db.SaveChanges();
-                SendMail.SendEmailToCustomerForNewOrder(customer.Email, order);
+                SendMail.SendMailToCustomerForNewOrder(customer.Email, order);
                 if(order.Delivery != null)
                 {
-                    SendMail.SendEmailToDeliveryForNewOrder(order.Delivery.Email, order);
+                    SendMail.SendMailToReceiverForNewOrder(order.Delivery.Email, order);
                 }
                 return View("PaymentSuccess", order);
             }

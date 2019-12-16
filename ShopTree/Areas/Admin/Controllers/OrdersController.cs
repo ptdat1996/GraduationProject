@@ -72,6 +72,11 @@ namespace ShopTree.Areas.Admin.Controllers
             orderModel.ShipperEmployeeId = shipperEmployeeId;
             orderModel.OrderStatusId = (int)Constants.ORDER_STATUS.DELIVERING;
             db.SaveChanges();
+            SendMail.SendMailToCustomerWhenAcceptOrder(orderModel.Customer.Email, orderId);
+            if(orderModel.Delivery != null)
+            {
+                SendMail.SendMailToReceiverWhenAcceptOrder(orderModel.Delivery.Email, orderId);
+            }
             return RedirectToAction("AllOrder", "Orders", new { area = "Admin", page });
         }
 
@@ -108,22 +113,37 @@ namespace ShopTree.Areas.Admin.Controllers
         public ActionResult Delivering(int orderId, int orderStatusId, int? page, string cancelReason = null)
         {
             var order = db.Orders.Find(orderId);
+            order.DeliveryDate = DateTime.Now;
             order.OrderStatusId = orderStatusId;
-            if (orderStatusId != (int)Constants.ORDER_STATUS.CANCEL)
+            db.SaveChanges();
+            if (orderStatusId == (int)Constants.ORDER_STATUS.DELIVERED)
             {
                 var listOrderDetail = db.OrderDetails.Where(od => od.OrderId == orderId).ToList();
                 foreach (var item in listOrderDetail)
                 {
                     var product = db.Products.Find(item.ProductId);
                     product.StockQuantity -= item.Quantity;
-                    db.SaveChanges();
+                }
+                db.SaveChanges();
+                SendMail.SendMailToCustomerWhenDelivered(order.Customer.Email, orderId);
+                if (order.Delivery != null)
+                {
+                    SendMail.SendMailToReceiverWhenDelivered(order.Delivery.Email, orderId);
                 }
             }
-            order.DeliveryDate = DateTime.Now;
-            if (!string.IsNullOrEmpty(cancelReason))
+            else if(orderStatusId == (int)Constants.ORDER_STATUS.CANCEL)
             {
                 order.CancelReason = cancelReason;
-            }
+                db.SaveChanges();
+                var listOrderDetail = db.OrderDetails.Where(od => od.OrderId == orderId).ToList();
+                foreach (var item in listOrderDetail)
+                {
+                    var product = db.Products.Find(item.ProductId);
+                    product.StockQuantity += item.Quantity;
+                }
+                db.SaveChanges();
+                SendMail.SendMailToCustomerWhenCancelOrder(order.Customer.Email, orderId);
+            }           
             db.SaveChanges();
             return RedirectToAction("ListOrderDelivering", "Orders", new { area = "Admin", page });
         }

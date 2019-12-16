@@ -174,37 +174,34 @@
                                 <!-- End Cart -->
                                 <!-- Account -->
                                 <div class="user_login">
-                                    <div>
-                                        <div class="user_login_icon">
-                                            <img src="~/Assets/client/images/icon/user.png" />
-                                        </div>
-                                        @if (Session["CustomerName"] == null)
-                                        {
-                                            <div class="box_text">
-                                                <strong>Tài khoản</strong>
-                                            </div>
-                                            <div class="user_box">
-                                                <ul>
-                                                    <li><a href="@Url.Action("Login", "Customers")">Đăng nhập</a></li>
-                                                    <li><a href="@Url.Action("Register", "Customers")">Đăng ký</a></li>
-                                                </ul>
-                                            </div>
-                                        }
-                                        else
-                                        {
-                                            <div class="box_text">
-                                                <strong>Hello @Session["CustomerName"]</strong>
-                                            </div>
-                                            <div class="user_box">
-                                                <ul>
-                                                    <li><a href="@Url.Action("CustomerProfile", "Customers")">Thông tin cá nhân</a></li>
-                                                    <li><a href="@Url.Action("AttendProduct", "Customers")">Hướng dẫn chăm sóc cây</a></li>
-                                                    <li><a href="@Url.Action("Logout", "Customers")">Đăng xuất</a></li>
-                                                </ul>
-                                            </div>
-                                        }
-
+                                    <div class="user_login_icon">
+                                        <img src="~/Assets/client/images/icon/user.png" />
                                     </div>
+                                    @if (Session["CustomerName"] == null)
+                                    {
+                                        <div class="box_text">
+                                            <strong>Tài khoản</strong>
+                                        </div>
+                                        <div class="user_box">
+                                            <ul>
+                                                <li><a href="@Url.Action("Login", "Customers")">Đăng nhập</a></li>
+                                                <li><a href="@Url.Action("Register", "Customers")">Đăng ký</a></li>
+                                            </ul>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="box_text">
+                                            <strong>Hello @Session["CustomerName"]</strong>
+                                        </div>
+                                        <div class="user_box">
+                                            <ul>
+                                                <li><a href="@Url.Action("CustomerProfile", "Customers")">Thông tin cá nhân</a></li>
+                                                <li><a href="@Url.Action("AttendProduct", "Customers")">Hướng dẫn chăm sóc cây</a></li>
+                                                <li><a href="@Url.Action("Logout", "Customers")">Đăng xuất</a></li>
+                                            </ul>
+                                        </div>
+                                    }
                                 </div>
 
                                 <!-- End account -->
