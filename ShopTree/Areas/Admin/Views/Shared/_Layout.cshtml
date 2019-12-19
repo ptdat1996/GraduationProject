@@ -37,8 +37,7 @@
                     <div class="dropdown-header text-center">
                         <strong>Settings</strong>
                     </div>
-                    <a class="dropdown-item" href="#"><i class="fa fa-user"></i> Thông tin cá nhân</a>
-                    <div class="divider"></div>
+                    <a class="dropdown-item" href="@Url.Action("EmployeeProfile", "Employees", new { area = "Admin", userName = User.Identity.Name })"><i class="fa fa-user"></i> Thông tin cá nhân</a>
                     <a class="dropdown-item" href="@Url.Action("ChangePassword", "Employees", new { area = "Admin", userName = User.Identity.Name })"><i class="fa fa-lock"></i> Đổi mật khẩu</a>
                     <a class="dropdown-item" href="@Url.Action("Logout", "Employees", new { area = "Admin" })"><i class="fa fa-sign-out"></i> Đăng xuất</a>
                 </div>

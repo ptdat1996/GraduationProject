@@ -4,6 +4,7 @@ using System.Web.Security;
 using ShopTree.Areas.Admin.Models;
 using ShopTree.Common;
 using ShopTree.Models;
+using ShopTree.Areas.Admin.Models;
 
 namespace ShopTree.Areas.Admin.Controllers
 {
@@ -80,11 +81,7 @@ namespace ShopTree.Areas.Admin.Controllers
         [Authorize]
         [HttpPost]
         public ActionResult ChangePassword(ChangePasswordViewModel model)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+        {        
             var emp = db.Employees.Where(e => e.UserName.Equals(User.Identity.Name)).SingleOrDefault();
             if (emp.Password.Equals(model.OldPassword))
             {
@@ -105,6 +102,41 @@ namespace ShopTree.Areas.Admin.Controllers
                     message = Constants.ERR_COMPARE_OLDPASSWORD
                 });
             }
+        }
+
+        [Authorize]
+        public ActionResult EmployeeProfile(string userName)
+        {
+            if (!userName.Equals(User.Identity.Name))
+            {
+                FormsAuthentication.SignOut();
+                return RedirectToAction("Login", "Employees", new { area = "Admin" });
+            }
+            ViewBag.Title = "Thông tin cá nhân";
+            var emp = db.Employees.Where(e => e.UserName.Equals(userName)).SingleOrDefault();
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            {
+                UserName = emp.UserName,
+                Password = emp.Password,
+                FullName = emp.FullName,
+                Email = emp.Email,
+                Phone = emp.Phone,
+                Address = emp.Address,
+                LevelName = emp.Level.Name
+            };
+            return View(employeeViewModel);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EmployeeProfile(EmployeeViewModel employeeViewModel)
+        {
+            var emp = db.Employees.Where(e => e.UserName.Equals(User.Identity.Name)).SingleOrDefault();
+            emp.FullName = employeeViewModel.FullName;
+            emp.Phone = employeeViewModel.Phone;
+            emp.Address = employeeViewModel.Address;
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home", new { area = "Admin" });
         }
     }
 }

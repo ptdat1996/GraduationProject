@@ -1,0 +1,108 @@
+﻿@model ShopTree.Areas.Admin.Models.EmployeeViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>Đổi mật khẩu</strong>
+                        </div>
+
+                        @using (Html.BeginForm("EmployeeProfile", "Employees", new { area = "Admin" }, FormMethod.Post, new { @class = "form-horizontal" })) 
+                        {
+                            <div class="card-body">
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Tên đăng nhập :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", @disabled = "disabled" })
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Họ và tên :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.FullName, new { @class = "form-control" })   
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Mật khẩu :</label>
+                                        <div class="col-md-9">
+                                            <a href="@Url.Action("ChangePassword", "Employees", new { area = "Admin", userName = User.Identity.Name })">
+                                                ******<i class="fa fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Email :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control", @type = "email" })                
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Số điện thoại :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Phone, new { @class = "form-control", @type = "number" })           
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Chức danh :</label>
+                                        <div class="col-md-9">
+                                            <input name="LevelName" value="@Model.LevelName" disabled="disabled" class="form-control" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Địa chỉ :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(model => model.Address, new { @class = "form-control", @rows = "5" })                 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="mr-1">
+                                        <a class="custom-btn custom-btn-dark" href="@Url.Action("Index", "Home", new { area = "Admin" })">
+                                            <i class="fa fa-arrow-left"></i> Quay lại trang chủ
+                                        </a>
+                                    </div>
+                                    <div class="ml-1">
+                                        <button class="custom-btn custom-btn-info" type="submit">
+                                            <i class="fa fa-check-circle"></i> Chỉnh sửa
+                                        </button>
+                                    </div>
+                                    <div class="col-4 pt-2 pb-2">
+                                        <div class="loading-container" id="loader">
+                                            <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                            Loading....
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="return-error"></div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

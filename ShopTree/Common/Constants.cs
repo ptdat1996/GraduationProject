@@ -143,6 +143,8 @@ namespace ShopTree.Common
         public const string ADMIN_OUTSTANDING_ORDER_PATH = "admin/don-hang/chua-xu-ly";
 
         public const string ADMIN_CHANGEPASSWORD_PATH = "admin/doi-mat-khau";
+
+        public const string ADMIN_PROFILE_PATH = "admin/thong-tin-ca-nhan";
         #endregion Path
 
         #region Advice
