@@ -171,6 +171,13 @@ namespace ShopTree.Areas.Admin
           );
 
             context.MapRoute(
+              "Admin Change Password",
+              Constants.ADMIN_CHANGEPASSWORD_PATH,
+              new { controller = "Employees", action = "ChangePassword", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+          );
+
+            context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional },

@@ -32,6 +32,10 @@ namespace ShopTree.Common
 
         public const string ERR_REQUIRED_PASSWORD = "Mật khẩu không được trống";
 
+        public const string ERR_REQUIRED_NEWPASSWORD = "Mật khẩu mới không được trống";
+
+        public const string ERR_REQUIRED_RENEWPASSWORD = "Vui lòng nhập lại mật khẩu mới";
+
         public const string ERR_REQUIRED_EMAIL = "Email không được để trống";
 
         public const string ERR_REQUIRED_TITLE = "Tiêu đề không được trống";
@@ -65,6 +69,10 @@ namespace ShopTree.Common
         public const string ERR_LOCK_CREDENTIAL = "Tài khoản của bạn đang bị khoá!";
 
         public const string ERR_INVALID_EMAIL = "Email không hợp lệ";
+
+        public const string ERR_COMPARE_OLDPASSWORD = "Mật khẩu cũ không đúng";
+
+        public const string ERR_COMPARE_TWO_NEWPASSWORD = "Vui lòng nhập đúng với mật khẩu mới";
         #endregion Error
 
         public static string EmailAccount = ConfigurationManager.AppSettings["EmailAccount"];
@@ -133,6 +141,8 @@ namespace ShopTree.Common
         public const string ADMIN_PROCESSED_ORDER_PATH = "admin/don-hang/da-xu-ly";
 
         public const string ADMIN_OUTSTANDING_ORDER_PATH = "admin/don-hang/chua-xu-ly";
+
+        public const string ADMIN_CHANGEPASSWORD_PATH = "admin/doi-mat-khau";
         #endregion Path
 
         #region Advice
