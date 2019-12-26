@@ -16,7 +16,6 @@ namespace ShopTree.Areas.Admin.Controllers
         private const int pageSize = Constants.PAGE_SIZE_ADMIN;
         private int pageIndex = 1;
              
-        // GET: Admin/Blogs
         public ActionResult AllBlog(int? page, string keyword, string sortOrder)
         {
             ViewBag.Title = "Danh sách blog";
@@ -102,6 +101,70 @@ namespace ShopTree.Areas.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("AllBlog", "Blogs", new { area = "Admin" });
             }
+            return View(blogViewModel);
+        }
+
+        public ActionResult Edit(int id, int? page)
+        {
+            ViewBag.Title = "Chỉnh sửa blog";
+            ViewBag.Page = page ?? 1;
+
+            var blog = db.Blogs.Find(id);
+            if (blog == null)
+            {
+                return RedirectToAction("AllBlog", "Blogs", new { area = "Admin" });
+            }
+            BlogViewModel blogViewModel = new BlogViewModel()
+            {
+                Id = blog.Id,
+                Title = blog.Title,
+                Description = blog.Description,
+                ImagePath = blog.Avatar,
+                Priority = blog.Priority,
+            };
+            return View(blogViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(BlogViewModel blogViewModel, int page)
+        {
+            var blog = db.Blogs.Find(blogViewModel.Id);
+            blog.Title = blogViewModel.Title;
+            blog.Priority = blogViewModel.Priority;
+            blog.Description = blogViewModel.Description;
+            if(blogViewModel.ImageFile != null)
+            {
+                string fileName = Path.GetFileNameWithoutExtension(blogViewModel.ImageFile.FileName);
+                string fileExtension = Path.GetExtension(blogViewModel.ImageFile.FileName);
+                fileName = Slug.CreateSlug(blogViewModel.Title) + fileExtension;
+
+                string path = Path.Combine(Server.MapPath(Constants.BLOG_IMAGE_PATH), fileName);
+                blogViewModel.ImageFile.SaveAs(path);
+
+                blog.Avatar = Constants.BLOG_IMAGE_PATH + fileName;
+            }
+            db.SaveChanges();
+            return RedirectToAction("AllBlog", "Blogs", new { area = "Admin", page });
+        }
+
+        public ActionResult Detail(int id, int? page)
+        {
+            var blog = db.Blogs.Find(id);
+            if (blog == null)
+            {
+                return RedirectToAction("AllBlog", "Blogs", new { area = "Admin", page });
+            }
+            BlogViewModel blogViewModel = new BlogViewModel()
+            {
+                Id = blog.Id,
+                Title = blog.Title,
+                DatePost = blog.DatePost,
+                Priority = blog.Priority,
+                View = blog.View,
+                Description = blog.Description,
+                ImagePath = blog.Avatar,
+                EmployeeName = blog.Employee.FullName
+            };
             return View(blogViewModel);
         }
     }

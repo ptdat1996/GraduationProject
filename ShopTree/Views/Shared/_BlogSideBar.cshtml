@@ -7,7 +7,7 @@
         <div class="article_item">
             <div class="article_img">
                 <a href="@Url.Action("Detail", "Blogs", new { id = Slug.GenerateSlug(item.Id, item.Title) })">
-                    <img src="@Url.Content("~/" + item.Avatar)">
+                    <img src="@Url.Content(item.Avatar)" title="@item.Title" alt="@item.Title">
                 </a>
             </div>
             <div class="article_content clearfix">
@@ -20,12 +20,11 @@
                         <span>@item.View</span>
                     </div>
                     <div class="article_created">
-                        <i class="fa fa-calendar" aria-hidden="true"></i> <time>@item.DatePost.ToShortDateString()</time>
+                        <i class="fa fa-calendar" aria-hidden="true"></i> <time>@item.DatePost.ToString("dd/MM/yyyy")</time>
                     </div>
                 </div>
                 <div class="des">
-                    @{ var description = item.Description as String;}
-                    <p>@description.Substring(0, 80)</p>
+                    <p>@(item.Description.Substring(0, 100) + "...")</p>
                 </div>
                 <a class="readmore" href="@Url.Action("Detail","Blogs",new { id = Slug.GenerateSlug(item.Id, item.Title) })">
                     Đọc tiếp <i class="fa fa-angle-double-right" aria-hidden="true"></i>

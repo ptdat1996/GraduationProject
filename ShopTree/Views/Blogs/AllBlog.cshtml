@@ -26,7 +26,7 @@
                                 <article class="blog_item clearfix">
                                     <div class="blog_item_image text-center">
                                         <a href="@Url.Action("Detail", "Blogs", new { id = Slug.GenerateSlug(item.Id, item.Title) })">
-                                            <img src="@Url.Content("~/" + item.Avatar)">
+                                            <img src="@Url.Content(item.Avatar)">
                                         </a>
                                     </div>
                                     <div class="blog_item_content">

@@ -1,0 +1,81 @@
+﻿@model ShopTree.Areas.Admin.Models.BlogViewModel
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<main class="main">
+    <div class="container-fluid">
+        <div class="animated fadeIn">
+            <div class="row">
+                <div class="col-md-12 p-2">
+                    <div class="card">
+                        <div class="card-header">
+                            <strong>@Model.Title</strong>
+                        </div>
+                        @using (Html.BeginForm("Edit", "Blogs", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal" }))
+                        {
+                            <div class="card-body">
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <input type="hidden" name="page" value="@ViewBag.Page" />
+
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Tiêu đề blog :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextBoxFor(model => model.Title, new { @class = "form-control" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Title", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Độ ưu tiên :</label>
+                                        <div class="col-md-9">    
+                                            @Html.TextBoxFor(model => model.Priority, new { @class = "form-control", @min = "1", @type = "number" })
+                                            <div class="field-error">
+                                                @Html.ValidationMessage("Priority", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                       
+                                <div class="form-group row">
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Mô tả :</label>
+                                        <div class="col-md-9">
+                                            @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @rows = "10" })
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 row">
+                                        <label class="col-md-3 col-form-label">Avatar :</label>
+                                        <div class="col-md-9">
+                                            <input type="file" accept="image/*" name="ImageFile" onchange="loadFile(event)">
+                                            <div class="img-container col-md-9">
+                                                <img src="@Url.Content(Model.ImagePath)" id="preview" alt="@Model.Title" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <a class="custom-btn custom-btn-dark" href="@Url.Action("AllBlog", "Blogs", new { area = "Admin", page = ViewBag.Page })">
+                                    <i class="fa fa-arrow-left"></i> Quay lại danh sách
+                                </a>
+                                <button class="custom-btn custom-btn-info" type="submit">
+                                    <i class="fa fa-edit"></i> Lưu
+                                </button>
+                                <div class="loading-container">
+                                    <img src="~/Assets/admin/img/loading.gif" class="loading-img" />
+                                    Loading....
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+

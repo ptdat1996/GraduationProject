@@ -68,7 +68,7 @@
                                         <tr>
                                             <td>@item.Id</td>
                                             <td class="align-td">
-                                                <img src="@Url.Content("~/" + item.Avatar)" class="image-avatar" alt="@item.Title" />
+                                                <img src="@Url.Content(item.Avatar)" class="image-avatar" alt="@item.Title" />
                                             </td>
                                             <td>@item.Title</td>
                                             <td>@item.Employee.FullName</td>
@@ -83,13 +83,6 @@
                                                     <i class="fa fa-edit"></i>
                                                     Chỉnh sửa
                                                 </a>
-                                                @if (User.IsInRole("Admin"))
-                                                {
-                                                    <a class="custom-btn custom-btn-remove" data-toggle="modal" data-target="#confirm-delete" data-page-index="@Model.PageNumber" data-page="Blog" data-id="@item.Id" data-prop-name="@item.Title">
-                                                        <i class="fa fa-minus-circle"></i>
-                                                        Xoá
-                                                    </a>
-                                                }
                                             </td>
                                         </tr>
                                     }

@@ -146,6 +146,20 @@ namespace ShopTree.Areas.Admin
                 new string[] { "ShopTree.Areas.Admin.Controllers" }
             );
 
+            context.MapRoute(
+                "Admin Detail Blog",
+                Constants.ADMIN_DETAIL_BLOG_PATH,
+                new { controller = "Blogs", action = "Detail", id = UrlParameter.Optional },
+                new string[] { "ShopTree.Areas.Admin.Controllers" }
+            );
+
+            context.MapRoute(
+                "Admin Edit Blog",
+                Constants.ADMIN_EDIT_BLOG_PATH,
+                new { controller = "Blogs", action = "Edit", id = UrlParameter.Optional },
+                new string[] { "ShopTree.Areas.Admin.Controllers" }
+            );
+
             #endregion Blog
 
             #region Order

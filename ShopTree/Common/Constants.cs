@@ -94,7 +94,7 @@ namespace ShopTree.Common
         #region Path
         public const string CATEGORY_ICON_PATH = "~/Assets/client/images/icon/";
 
-        public const string BLOG_IMAGE_PATH = "~/Assets/client/images/blog/";
+        public const string BLOG_IMAGE_PATH = "/Assets/client/images/blog/";
 
         public const string PRODUCT_IMAGE_PATH = "~/Assets/client/images/product/";
 
@@ -127,6 +127,10 @@ namespace ShopTree.Common
         public const string ADMIN_LIST_BLOG_PATH = "admin/blog/danh-sach";
 
         public const string ADMIN_CREATE_BLOG_PATH = "admin/blog/tao-moi";
+
+        public const string ADMIN_DETAIL_BLOG_PATH = "admin/blog/chi-tiet/{id}";
+
+        public const string ADMIN_EDIT_BLOG_PATH = "admin/blog/chinh-sua/{id}";
 
         public const string ADMIN_LIST_ORDER_PATH = "admin/don-hang/danh-sach";
 
