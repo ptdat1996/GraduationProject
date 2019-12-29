@@ -180,7 +180,6 @@
     <Compile Include="Areas\Admin\Controllers\CustomersController.cs" />
     <Compile Include="Areas\Admin\Controllers\EmployeesController.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
-    <Compile Include="Areas\Admin\Controllers\LevelsController.cs" />
     <Compile Include="Areas\Admin\Controllers\OrdersController.cs" />
     <Compile Include="Areas\Admin\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Admin\Models\BlogViewModel.cs" />
@@ -565,7 +564,6 @@
     <Content Include="Areas\Admin\Views\Products\AllProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Edit.cshtml" />
-    <Content Include="Areas\Admin\Views\Levels\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Products\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Products\DeletedProduct.cshtml" />
     <Content Include="Areas\Admin\Views\Categories\AllCategory.cshtml" />
@@ -600,6 +598,8 @@
     <Content Include="Areas\Admin\Views\Blogs\Detail.cshtml" />
     <Content Include="Areas\Admin\Views\Employees\AllEmployee.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EmployeeRow.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\AllCustomer.cshtml" />
+    <Content Include="Areas\Admin\Views\Customers\Detail.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
@@ -669,7 +669,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Admin\Views\Customers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

@@ -153,6 +153,10 @@ namespace ShopTree.Common
         public const string ADMIN_LIST_EMPLOYEE = "admin/nhan-vien/danh-sach";
 
         public const string ADMIN_LOCK_EMPLOYEE = "admin/nhan-vien/khoa/{id}";
+
+        public const string ADMIN_LIST_CUSTOMER = "admin/khach-hang/danh-sach";
+
+        public const string ADMIN_DETAIL_CUSTOMER = "admin/khach-hang/chi-tiet/{id}";
         #endregion Path
 
         #region Advice

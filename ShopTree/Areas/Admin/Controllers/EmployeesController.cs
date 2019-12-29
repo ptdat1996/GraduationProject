@@ -4,7 +4,6 @@ using System.Web.Security;
 using ShopTree.Areas.Admin.Models;
 using ShopTree.Common;
 using ShopTree.Models;
-using ShopTree.Areas.Admin.Models;
 using PagedList;
 
 namespace ShopTree.Areas.Admin.Controllers

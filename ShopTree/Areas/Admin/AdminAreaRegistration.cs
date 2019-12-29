@@ -227,6 +227,22 @@ namespace ShopTree.Areas.Admin
             );
             #endregion Order
 
+            #region Customer
+            context.MapRoute(
+               "Admin List Customer",
+               Constants.ADMIN_LIST_CUSTOMER,
+               new { controller = "Customers", action = "AllCustomer", id = UrlParameter.Optional },
+               new string[] { "ShopTree.Areas.Admin.Controllers" }
+            );
+
+            context.MapRoute(
+               "Admin Detail Customer",
+               Constants.ADMIN_DETAIL_CUSTOMER,
+               new { controller = "Customers", action = "Detail", id = UrlParameter.Optional },
+               new string[] { "ShopTree.Areas.Admin.Controllers" }
+            );
+            #endregion Customer
+
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
