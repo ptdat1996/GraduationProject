@@ -5,12 +5,15 @@ using ShopTree.Areas.Admin.Models;
 using ShopTree.Common;
 using ShopTree.Models;
 using ShopTree.Areas.Admin.Models;
+using PagedList;
 
 namespace ShopTree.Areas.Admin.Controllers
 {
     public class EmployeesController : Controller
     {
         private ShopTreeEntities db = new ShopTreeEntities();
+        private const int pageSize = Constants.PAGE_SIZE_ADMIN;
+        private int pageIndex = 1;
 
         [AllowAnonymous]
         public ActionResult Login()
@@ -107,13 +110,17 @@ namespace ShopTree.Areas.Admin.Controllers
         [Authorize]
         public ActionResult EmployeeProfile(string userName)
         {
-            if (!userName.Equals(User.Identity.Name))
+            var currentEmpployeeRole = db.Employees.Where(e => e.UserName.Equals(User.Identity.Name)).SingleOrDefault().Level.Name;
+            if (!currentEmpployeeRole.Equals(Constants.ROLE_ADMIN))
             {
-                FormsAuthentication.SignOut();
-                return RedirectToAction("Login", "Employees", new { area = "Admin" });
+                if (!userName.Equals(User.Identity.Name))
+                {
+                    FormsAuthentication.SignOut();
+                    return RedirectToAction("Login", "Employees", new { area = "Admin" });
+                }     
             }
-            ViewBag.Title = "Thông tin cá nhân";
             var emp = db.Employees.Where(e => e.UserName.Equals(userName)).SingleOrDefault();
+            ViewBag.Title = "Thông tin cá nhân";
             EmployeeViewModel employeeViewModel = new EmployeeViewModel()
             {
                 UserName = emp.UserName,
@@ -137,6 +144,26 @@ namespace ShopTree.Areas.Admin.Controllers
             emp.Address = employeeViewModel.Address;
             db.SaveChanges();
             return RedirectToAction("Index", "Home", new { area = "Admin" });
+        }
+
+        [Authorize(Roles = Constants.ROLE_ADMIN)]
+        public ActionResult AllEmployee(int? page)
+        {
+            ViewBag.Title = "Danh sách nhân viên";
+            pageIndex = page ?? 1;
+            var employees = db.Employees.Where(e => e.Level.Name != Constants.ROLE_ADMIN).ToList();
+            IPagedList<Employee> pagingEmployee = employees.ToPagedList(pageIndex, pageSize);
+            return View(pagingEmployee);
+        }
+
+        [Authorize(Roles = Constants.ROLE_ADMIN)]
+        public ActionResult Lock(int id, int? page)
+        {
+            var emp = db.Employees.Find(id);
+            emp.Status = !emp.Status;
+            db.SaveChanges();
+            ViewBag.PageNumber = page ?? 1;
+            return PartialView("_EmployeeRow", emp);
         }
     }
 }

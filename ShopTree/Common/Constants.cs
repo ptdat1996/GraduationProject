@@ -149,6 +149,10 @@ namespace ShopTree.Common
         public const string ADMIN_CHANGEPASSWORD_PATH = "admin/doi-mat-khau";
 
         public const string ADMIN_PROFILE_PATH = "admin/thong-tin-ca-nhan";
+
+        public const string ADMIN_LIST_EMPLOYEE = "admin/nhan-vien/danh-sach";
+
+        public const string ADMIN_LOCK_EMPLOYEE = "admin/nhan-vien/khoa/{id}";
         #endregion Path
 
         #region Advice

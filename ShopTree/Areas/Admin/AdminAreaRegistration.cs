@@ -52,6 +52,20 @@ namespace ShopTree.Areas.Admin
               new { controller = "Employees", action = "EmployeeProfile", id = UrlParameter.Optional },
               new string[] { "ShopTree.Areas.Admin.Controllers" }
             );
+
+            context.MapRoute(
+              "Admin List Employee",
+              Constants.ADMIN_LIST_EMPLOYEE,
+              new { controller = "Employees", action = "AllEmployee", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+            );
+
+            context.MapRoute(
+              "Admin Lock Employee",
+              Constants.ADMIN_LOCK_EMPLOYEE,
+              new { controller = "Employees", action = "Lock", id = UrlParameter.Optional },
+              new string[] { "ShopTree.Areas.Admin.Controllers" }
+            );
             #endregion Employee
 
             #region Product

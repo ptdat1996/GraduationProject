@@ -1,0 +1,51 @@
+﻿@model ShopTree.Models.Employee
+
+<td>@Model.Id</td>
+<td>@Model.UserName</td>
+<td>@Model.FullName</td>
+<td>@Model.Email</td>
+<td>@Model.Phone</td>
+<td>
+    @if (Model.Status)
+    {
+        <span class="badge badge-success">Active</span>
+    }
+    else
+    {
+        <span class="badge badge-secondary">Inactive</span>
+    }
+</td>
+<td class="td-contain-button">
+    <a class="custom-btn custom-btn-warning" href="@Url.Action("EmployeeProfile", "Employees", new { area = "Admin", userName = Model.UserName, page = ViewBag.PageNumber })">
+        <i class="fa fa-check-square-o"></i>
+        Chi tiết
+    </a>
+    @if (Model.Status)
+    {
+        <button class="custom-btn custom-btn-remove">
+            <i class="fa fa-minus-circle"></i>
+            @Ajax.ActionLink((Model.Status ? "Lock" : "Unlock"), "Lock","Employees",
+                          new { area = "Admin", id= Model.Id},
+                          new AjaxOptions
+                          {
+                              UpdateTargetId = ("employeeRow" + Model.Id),
+                              InsertionMode = InsertionMode.Replace,
+                              HttpMethod = "GET"
+                          })
+        </button>
+    }
+    else
+    {
+        <button class="custom-btn custom-btn-success">
+            <i class="fa fa-check-circle-o"></i>
+            @Ajax.ActionLink((Model.Status ? "Lock" : "Unlock"), "Lock","Employees",
+                          new { area = "Admin", id= Model.Id},
+                          new AjaxOptions
+                          {
+                              UpdateTargetId = ("employeeRow" + Model.Id),
+                              InsertionMode = InsertionMode.Replace,
+                              HttpMethod = "GET"
+                          })
+        </button>
+    }
+</td>

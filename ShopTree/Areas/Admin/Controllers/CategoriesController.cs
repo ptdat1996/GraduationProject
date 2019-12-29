@@ -20,7 +20,7 @@ namespace ShopTree.Areas.Admin.Controllers
         public ActionResult AllCategory(int? page)
         {
             ViewBag.Title = "Danh sách danh mục";
-            pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
+            pageIndex = page ?? 1;
             var list = db.Categories.ToList();
             IPagedList<Category> pagingCategory = list.ToPagedList(pageIndex, pageSize);
             return View(pagingCategory);

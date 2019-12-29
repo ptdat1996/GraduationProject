@@ -79,7 +79,7 @@
                                             <td>@item.Price.ToString("C", CultureInfo.GetCultureInfo("vi-VN"))</td>
                                             <td>@item.StockQuantity</td>
                                             <td>
-                                                @if (item.Status == true)
+                                                @if (item.Status)
                                                 {
                                                     <span class="badge badge-success">Active</span>
                                                 }
@@ -93,7 +93,7 @@
                                                     <i class="fa fa-check-square-o"></i>
                                                     Chi tiết
                                                 </a>
-                                                @if (item.Status == true)
+                                                @if (item.Status)
                                                 {
                                                     <a class="custom-btn custom-btn-info" href="@Url.Action("Edit", "Products", new { area = "Admin", id = item.Id, page = Model.PageNumber })">
                                                         <i class="fa fa-edit"></i>
@@ -102,7 +102,7 @@
                                                 }
                                                 @if (User.IsInRole("Admin"))
                                                 {
-                                                    if (item.Status == true)
+                                                    if (item.Status)
                                                     {
                                                         <a class="custom-btn custom-btn-remove" data-toggle="modal" data-target="#confirm-delete" data-page-index="@Model.PageNumber" data-page="Product" data-id="@item.Id" data-prop-name="@item.Name">
                                                             <i class="fa fa-minus-circle"></i>
